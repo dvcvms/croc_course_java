@@ -4,28 +4,27 @@ import java.util.Scanner;
 
 public class Main {
 
+    static String human_read_format(long bytes) {
 
-    static String human_read_format(int bytes) {
+        if (bytes < 0) {
+            return "Incorrect value (input bytes < 0)!";
+        }
+
         String result = "";
         String[] arrayName = new String[]{"B", "KB", "MB", "GB", "TB", "PB"};
-        int counter = 1;
+        long border = 1;
 
-        while (true) {
+        for (int i = 0; i < 6; i++) {
 
-            int integer_part = (bytes / ((int) Math.pow(1024, counter)));
+            if (bytes < border * 1024) {
 
-            if (integer_part < 1) {
-                int remainder_part = (bytes % ((int) Math.pow(1024, counter)));
-                result = Integer.toString(integer_part) + "." + Integer.toString(remainder_part) + " " + arrayName[counter - 1];
+                double new_value = bytes / (double) border;
+
+                result = String.format("%.1f", new_value) + " " + arrayName[i];
+
                 break;
             }
-
-            counter++;
-
-            if (counter > 6) {
-                result = "Too much value (max=PB)";
-                break;
-            }
+            border = border * 1024;
         }
 
         return result;
@@ -36,7 +35,7 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         System.out.print("Input bytes: ");
-        int bytes = in.nextInt();
+        long bytes = in.nextLong();
 
         System.out.println("Result: " + human_read_format(bytes));
 
