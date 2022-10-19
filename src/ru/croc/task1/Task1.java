@@ -10,7 +10,7 @@ public class Task1 {
         double y;
     }
 
-    static double Square(Point a, Point b, Task1.Point c) {
+    static double square(Point a, Point b, Point c) {
         double l1 = Math.sqrt(Math.pow((b.x - a.x), 2) + Math.pow((b.y - a.y), 2));
         double l2 = Math.sqrt(Math.pow((c.x - a.x), 2) + Math.pow((c.y - a.y), 2));
         double l3 = Math.sqrt(Math.pow((b.x - c.x), 2) + Math.pow((b.y - c.y), 2));
@@ -49,13 +49,13 @@ public class Task1 {
         System.out.print("Введите координату y вершины №3: ");
         c.y = in.nextDouble();
 
-        s = Square(a, b, c);
+        s = square(a, b, c);
 
         if (s == -100){
             System.out.println("Координаты вершин заданы некорректно!");
         }
         else {
-            System.out.println("Площадь равна: " + String.format("%.1f", Square(a, b, c)));
+            System.out.println("Площадь равна: " + String.format("%.1f", square(a, b, c)));
         }
 
         // System.out.format("%.1f", Square(a, b, c) + "Площадь равна");
