@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Task2 {
 
-    static String human_read_format(long bytes) {
+    static String humanReadFormat(long bytes) {
 
         if (bytes < 0) {
             return "Incorrect value (input bytes < 0)!";
@@ -12,13 +12,13 @@ public class Task2 {
 
         String result = "";
         String[] arrayName = new String[]{"B", "KB", "MB", "GB", "TB", "PB"};
-        long border = 1;
+        double border = 1.0;
 
         for (int i = 0; i < 6; i++) {
 
             if (bytes < border * 1024) {
 
-                double new_value = bytes / (double) border;
+                double new_value = bytes / border;
 
                 result = String.format("%.1f", new_value) + " " + arrayName[i];
 
@@ -37,7 +37,7 @@ public class Task2 {
         System.out.print("Input bytes: ");
         long bytes = in.nextLong();
 
-        System.out.println("Result: " + human_read_format(bytes));
+        System.out.println("Result: " + humanReadFormat(bytes));
 
     }
 }
