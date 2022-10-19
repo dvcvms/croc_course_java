@@ -1,8 +1,8 @@
-package task2;
+package ru.croc.task2;
 
 import java.util.Scanner;
 
-public class Main {
+public class Task2 {
 
     static String human_read_format(long bytes) {
 

@@ -1,16 +1,16 @@
-package task1;
+package ru.croc.task1;
 
 import java.util.Scanner;
 
 
-public class Main {
+public class Task1 {
 
     static class Point {
         double x;
         double y;
     }
 
-    static double Square(Point a, Point b, Point c) {
+    static double Square(Point a, Point b, Task1.Point c) {
         double l1 = Math.sqrt(Math.pow((b.x - a.x), 2) + Math.pow((b.y - a.y), 2));
         double l2 = Math.sqrt(Math.pow((c.x - a.x), 2) + Math.pow((c.y - a.y), 2));
         double l3 = Math.sqrt(Math.pow((b.x - c.x), 2) + Math.pow((b.y - c.y), 2));
