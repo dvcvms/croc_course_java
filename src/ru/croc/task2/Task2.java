@@ -14,13 +14,13 @@ public class Task2 {
         String[] arrayName = new String[]{"B", "KB", "MB", "GB", "TB", "PB"};
         double border = 1.0;
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < arrayName.length; i++) {
 
             if (bytes < border * 1024) {
 
-                double new_value = bytes / border;
+                double newValue = bytes / border;
 
-                result = String.format("%.1f", new_value) + " " + arrayName[i];
+                result = String.format("%.1f", newValue) + " " + arrayName[i];
 
                 break;
             }
