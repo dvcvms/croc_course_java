@@ -4,11 +4,6 @@ import java.util.Scanner;
 
 public class Task3 {
 
-    static class MinMax { // TODO: finish class features and use this class in program
-        int minValue;
-        int maxValue;
-    }
-
     public static void fillArray(int[] arr, String str) {
         int j = 0;
 
@@ -79,7 +74,7 @@ public class Task3 {
         }
     }
 
-    private static int findLengthArray(String str) {
+    public static int findLengthArray(String str) {
         int lengthArray = 0;
 
         for (int i = 0; i < str.length(); i++) {
@@ -111,5 +106,4 @@ public class Task3 {
 
         printArray(arr);
     }
-
 }
