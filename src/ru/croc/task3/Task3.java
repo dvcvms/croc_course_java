@@ -4,27 +4,26 @@ import java.util.Scanner;
 
 public class Task3 {
 
+    static class MinMax { // TODO: finish class features and use this class in program
+        int minValue;
+        int maxValue;
+    }
+
     public static void fillArray(int[] arr, String str) {
-        // String t = "";
         int j = 0;
 
         StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
 
             if (str.charAt(i) != ' ') {
-                // t = t + str.charAt(i);
                 buffer.append(str.charAt(i));
             }
 
             if (str.charAt(i) == ' ') {
-                // arr[j] = Integer.parseInt(t);
                 arr[j] = Integer.parseInt(buffer.substring(0));
-                // t = "";
+                buffer.delete(0, buffer.length()); // clear buffer
                 j++;
-                buffer.delete(0, buffer.length());
             }
-
-
         }
     }
 
@@ -32,42 +31,43 @@ public class Task3 {
         int lengthArray = arr.length;
 
         int maxValue = arr[0], minValue = arr[0];
-        int index_min = 0, index_max = 0;
+        int indexMin = 0, indexMax = 0;
 
         for (int i = 1; i < lengthArray; i++) {
             if (arr[i] > maxValue) {
                 maxValue = arr[i];
-                index_max = i;
+                indexMax = i;
             }
 
             if (arr[i] < minValue) {
                 minValue = arr[i];
-                index_min = i;
+                indexMin = i;
             }
         }
-        changeMaxMin(arr, minValue, maxValue, index_min, index_max);
+
+        changeMaxMin(arr, minValue, maxValue, indexMin, indexMax);
     }
 
-    public static void changeMaxMin(int[] arr, int minValue, int maxValue, int index_min, int index_max) {
-        int t_min = arr[0];
-        arr[0] = minValue;
-        arr[index_min] = t_min;
+    public static void changeMaxMin(int[] arr, int minValue, int maxValue, int indexMin, int indexMax) {
 
-        /*
-         * We must check this situation:
+        int first = arr[0];
+        arr[0] = minValue;
+        arr[indexMin] = first;
+
+        /* We must check this situation:
          *
          * 4 1 2 3 -> 1 4 2 3
          *
-         * Because maxValue changed position then index_max must be changed:
+         * Because maxValue changed position then indexMax value must be changed:
          */
 
-        if (arr[index_min] == maxValue) {
-            index_max = index_min;
+        if (arr[indexMin] == maxValue) {
+            indexMax = indexMin;
         }
 
-        int t_max = arr[arr.length - 1];
+        int last = arr[arr.length - 1];
         arr[arr.length - 1] = maxValue;
-        arr[index_max] = t_max;
+        arr[indexMax] = last;
     }
 
     public static void printArray(int[] arr) {
@@ -79,7 +79,7 @@ public class Task3 {
         }
     }
 
-    public static int findLengthArray(String str) {
+    private static int findLengthArray(String str) {
         int lengthArray = 0;
 
         for (int i = 0; i < str.length(); i++) {
@@ -106,8 +106,6 @@ public class Task3 {
         int[] arr = new int[lengthArray];
 
         fillArray(arr, str);
-
-        findMaxMin(arr);
 
         findMaxMin(arr);
 
