@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Task3 {
 
+    /*
     public static void fillArray(int[] arr, String str) {
         int j = 0;
 
@@ -19,6 +20,17 @@ public class Task3 {
                 buffer.delete(0, buffer.length()); // clear buffer
                 j++;
             }
+        }
+    }
+    */
+
+    // another realization fillArray with split method
+    public static void fillArray(int[] arr, String str) {
+
+        String[] words = str.split(" ");
+
+        for (int i = 0; i < words.length; i++) {
+            arr[i] = Integer.parseInt(words[i]);
         }
     }
 
