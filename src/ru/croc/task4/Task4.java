@@ -3,89 +3,94 @@ package ru.croc.task4;
 
 public class Task4 {
 
-
-    static class Comment {
-        String str;
-        String newStr;
-        int i;
-        boolean flag;
-    }
-
     static public void removeFirst(Comment obj) {
-        obj.i += 2; // TODO: add example for this solution
 
-        for (int j = obj.i; j < obj.str.length(); j++)
+        // shift index position [some symbol] after "//" symbols: "[/]/A" -> "//[A]"
+        obj.i += 2;
 
-            if (obj.str.charAt(j) == '\n') {
+        int lengthStr = obj.getLengthStr();
+
+        for (int j = obj.i; j < lengthStr; j++)
+
+            if (obj.getCharAtStr(j) == '\n') {
                 obj.i = j;
                 break;
-            } else if (j == (obj.str.length() - 1)) { // TODO: add example for this solution
+            }
+            // we must work out the case, when "//..." comment
+            // located in the end of text and '\n' is missed (//...'\n' - X)
+            else if (j == (lengthStr - 1)) {
                 obj.i = j;
-                obj.flag = false;
+                obj.flag = false; // to do signal for this situation
                 break;
             }
     }
 
     static public void removeSecond(Comment obj) {
-        obj.i += 2; // TODO: add example for this solution
 
-        for (int j = obj.i; j < obj.str.length(); j++)
+        // shift index position [some symbol] after "/*" symbols: "[/]*A" -> "/*[A]"
+        obj.i += 2;
 
-            if (obj.str.charAt(j - 1) == '*' && obj.str.charAt(j) == '/') {
+        int lengthStr = obj.getLengthStr();
+
+        for (int j = obj.i; j < lengthStr; j++)
+
+            if (obj.getCharAtStr(j - 1) == '*' && obj.getCharAtStr(j) == '/') {
                 obj.i = j + 1;
                 break;
             }
     }
 
-    static public String removeComments(Comment obj) {
+    static public void removeComments(Comment obj) {
 
-        // initialization fields
-        obj.newStr = "";
-        obj.i = 0;
-        obj.flag = true;
+        // if text is ""
+        if (obj.getLengthStr() == 0) {
+            return;
+        }
 
-        while (obj.i < obj.str.length()) {
+        int lengthStr = obj.getLengthStr();
 
-            if (obj.str.charAt(obj.i) == '/')
+        while (obj.i < lengthStr) {
 
-                if (obj.str.charAt(obj.i + 1) == '/')
+            if (obj.getCharAtStr(obj.i) == '/')
+
+                if (obj.getCharAtStr(obj.i + 1) == '/')
                     removeFirst(obj); // to remove "//..." comment
 
-                else if (obj.str.charAt(obj.i + 1) == '*')
+                else if (obj.getCharAtStr(obj.i + 1) == '*')
                     removeSecond(obj); // to remove "/* ... */" comment
 
             if (obj.flag)
-                obj.newStr = obj.newStr + obj.str.charAt(obj.i);
+                obj.builder.append(obj.getCharAtStr(obj.i));
 
             obj.i++;
         }
 
-        return obj.newStr;
+        obj.setNewStr(obj.builder);
     }
-
 
     public static void main(String[] args) {
 
         Comment obj = new Comment();
 
-        obj.str = "/*\n" +
-                " * My first ever program in Java!\n" +
-                " */\n" +
-                "class Hello { // class body starts here \n" +
-                "  \n" +
-                "  /* main method */\n" +
-                "  public static void main(String[] args/* we put command line arguments here*/) {\n" +
-                "    // this line prints my first greeting to the screen\n" +
-                "    System.out.println(\"Hi!\"); // :)\n" +
-                "  }\n" +
-                "} // the end\n" +
-                "// to be continued...\n";
+        String text = """
+                /*
+                 * My first ever program in Java!
+                 */
+                class Hello { // class body starts here\s
+                 \s
+                  /* main method */
+                  public static void main(String[] args/* we put command line arguments here*/) {
+                    // this line prints my first greeting to the screen
+                    System.out.println("Hi!"); // :)
+                  }
+                } // the end
+                // to be continued...
+                """;
 
-
-        // System.out.println(obj.str); // TODO: delete after refactor code
+        obj.setStr(text);
 
         removeComments(obj);
 
-        System.out.println(obj.newStr);
+        System.out.println(obj.getNewStr());
     }
 }
