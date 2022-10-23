@@ -3,59 +3,59 @@ package ru.croc.task4;
 
 public class Task4 {
 
-    
-    static class cl {
+
+    static class Comment {
+        String str;
         String newStr;
         int i;
-        boolean flaq;
+        boolean flag;
     }
-    
-    static public void removeFirst(String str, cl obj) {
-        for (int j = obj.i; j < str.length(); j++) {
-            if (str.charAt(j) == '\n') {
+
+    static public void removeFirst(Comment obj) {
+        obj.i += 2; // TODO: add example for this solution
+
+        for (int j = obj.i; j < obj.str.length(); j++)
+
+            if (obj.str.charAt(j) == '\n') {
                 obj.i = j;
                 break;
-            } else if (j == (str.length() - 1)) {
+            } else if (j == (obj.str.length() - 1)) { // TODO: add example for this solution
                 obj.i = j;
-                obj.flaq = false;
+                obj.flag = false;
                 break;
             }
-        }
-
     }
 
-    static public void removeSecond(String str, cl obj) {
-        int j;
-        for (j = obj.i; j < str.length(); j++) {
-            if (str.charAt(j) == '*' && str.charAt(j + 1) == '/') {
-                obj.i = j + 2;
+    static public void removeSecond(Comment obj) {
+        obj.i += 2; // TODO: add example for this solution
+
+        for (int j = obj.i; j < obj.str.length(); j++)
+
+            if (obj.str.charAt(j - 1) == '*' && obj.str.charAt(j) == '/') {
+                obj.i = j + 1;
                 break;
             }
-        }
     }
 
-    static public String removeComments(String str) {
-        
-        cl obj = new cl();
+    static public String removeComments(Comment obj) {
+
+        // initialization fields
         obj.newStr = "";
         obj.i = 0;
+        obj.flag = true;
 
-        boolean flag = true;
+        while (obj.i < obj.str.length()) {
 
-        while (obj.i < str.length()) {
+            if (obj.str.charAt(obj.i) == '/')
 
-            if (str.charAt(obj.i) == '/') {
-                if (str.charAt(obj.i + 1) == '/') {
-                    removeFirst(str, obj); // to remove "//..." comment
-                }
-                else if (str.charAt(obj.i + 1) == '*') {
-                    removeSecond(str, obj); // to remove "/* ... */" comment
-                }
-            }
+                if (obj.str.charAt(obj.i + 1) == '/')
+                    removeFirst(obj); // to remove "//..." comment
 
-            if (flag) {
-                obj.newStr = obj.newStr + str.charAt(obj.i);
-            }
+                else if (obj.str.charAt(obj.i + 1) == '*')
+                    removeSecond(obj); // to remove "/* ... */" comment
+
+            if (obj.flag)
+                obj.newStr = obj.newStr + obj.str.charAt(obj.i);
 
             obj.i++;
         }
@@ -66,7 +66,9 @@ public class Task4 {
 
     public static void main(String[] args) {
 
-        String text = "/*\n" +
+        Comment obj = new Comment();
+
+        obj.str = "/*\n" +
                 " * My first ever program in Java!\n" +
                 " */\n" +
                 "class Hello { // class body starts here \n" +
@@ -79,10 +81,11 @@ public class Task4 {
                 "} // the end\n" +
                 "// to be continued...\n";
 
-        System.out.println(text); // TODO: delete after refactor code
 
-        String textWithoutComment = removeComments(text);
+        // System.out.println(obj.str); // TODO: delete after refactor code
 
-        System.out.println(textWithoutComment);
+        removeComments(obj);
+
+        System.out.println(obj.newStr);
     }
 }
