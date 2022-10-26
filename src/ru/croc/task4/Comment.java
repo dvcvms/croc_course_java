@@ -1,14 +1,13 @@
 package ru.croc.task4;
 
 public class Comment {
-    private String str;
-    private int lengthStr;
-
-    private String newStr;
     public int i;
     public boolean flag;
-
     public StringBuilder builder;
+
+    private String str;
+    private String newStr;
+    private int lengthStr;
 
     public Comment() {
         this.newStr = "";
