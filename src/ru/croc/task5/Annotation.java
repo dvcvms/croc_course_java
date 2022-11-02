@@ -4,11 +4,11 @@ public class Annotation {
 
     private String label = null;
 
-    protected void setLabel(String label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 
-    protected String getLabel() {
+    public String getLabel() {
         return this.label;
     }
 
