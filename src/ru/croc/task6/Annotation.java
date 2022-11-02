@@ -17,7 +17,7 @@ public class Annotation implements Movable { // TODO: may be abstract?
         return "";
     }
 
-    public boolean checkPoint(int x, int y) {
+    public boolean comparePoints(int x, int y) {
         return false;
     }
 

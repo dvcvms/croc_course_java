@@ -15,7 +15,7 @@ public class Rectangle extends Figure {
         return "R (" + this.x1 + ", " + this.y1 + "), (" + this.x2 + ", " + this.y2 + "): " + getLabel();
     }
 
-    public boolean checkPoint(int x, int y) {
+    public boolean comparePoints(int x, int y) {
         boolean result = (this.x1 == x && this.y1 == y) || (this.x2 == x && this.y2 == y);
         return result;
     }

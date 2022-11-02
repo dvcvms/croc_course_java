@@ -11,7 +11,6 @@ class AnnotatedImage {
         this.annotations = annotations;
     }
 
-
     public String getImagePath() {
         return this.imagePath;
     }
@@ -20,32 +19,31 @@ class AnnotatedImage {
         return this.annotations;
     }
 
-
     public Annotation findByPoint(int x, int y) {
 
-        Annotation a = null;
+        Annotation annotation = null;
 
         for (Annotation obj : annotations) {
-            if (obj.checkPoint(x, y)) {
-                a = obj;
+            if (obj.comparePoints(x, y)) {
+                annotation = obj;
                 break;
             }
         }
 
-        return a;
+        return annotation;
     }
 
     public Annotation findByLabel(String label) {
 
-        Annotation a = null;
+        Annotation annotation = null;
 
         for (Annotation obj : annotations) {
             if (obj.getLabel().contains(label)) {
-                a = obj;
+                annotation = obj;
                 break;
             }
         }
 
-        return a;
+        return annotation;
     }
 }

@@ -15,7 +15,7 @@ public class Circle extends Figure {
         return "C (" + this.x0 + ", " + this.y0 + "), " + this.r + ": " + getLabel();
     }
 
-    public boolean checkPoint(int x, int y) {
+    public boolean comparePoints(int x, int y) {
         boolean result = this.x0 == x && this.y0 == y;
         return result;
     }

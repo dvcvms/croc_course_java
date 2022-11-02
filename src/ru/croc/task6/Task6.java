@@ -15,7 +15,7 @@ public class Task6 {
         System.out.println(circle);
         System.out.println(rectangle);
 
-        AnnotatedImage annotatedImage = new AnnotatedImage("path", circle);
-        annotatedImage.findByPoint(2, 3);
+        AnnotatedImage annotatedImage = new AnnotatedImage("path", rectangle);
+        annotatedImage.findByPoint(1, 1);
     }
 }
