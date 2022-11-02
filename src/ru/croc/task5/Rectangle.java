@@ -12,6 +12,6 @@ public class Rectangle extends Figure {
 
     @Override
     public String toString() {
-        return "R (" + this.x1 + ", " + this.y1 + "), (" + this.x2 + ", " + this.y2 + "): " + getSignature();
+        return "R (" + this.x1 + ", " + this.y1 + "), (" + this.x2 + ", " + this.y2 + "): " + getLabel();
     }
 }

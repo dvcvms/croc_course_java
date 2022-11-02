@@ -12,6 +12,6 @@ public class Circle extends Figure {
 
     @Override
     public String toString() {
-        return "C (" + this.x0 + ", " + this.y0 + "), " + this.r + ": " + getSignature();
+        return "C (" + this.x0 + ", " + this.y0 + "), " + this.r + ": " + getLabel();
     }
 }

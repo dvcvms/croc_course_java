@@ -2,14 +2,14 @@ package ru.croc.task5;
 
 public class Annotation {
 
-    private String signature = "";
+    private String label = null;
 
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    protected String getSignature() {
-        return this.signature;
+    protected String getLabel() {
+        return this.label;
     }
 
     @Override
