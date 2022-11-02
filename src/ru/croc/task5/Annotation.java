@@ -4,7 +4,7 @@ public class Annotation {
 
     private String label = null;
 
-    public void setLabel(String label) {
+    protected void setLabel(String label) {
         this.label = label;
     }
 
