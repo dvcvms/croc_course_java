@@ -16,8 +16,7 @@ public class Circle extends Figure {
     }
 
     public boolean comparePoints(int x, int y) {
-        boolean result = this.x0 == x && this.y0 == y;
-        return result;
+        return (this.x0 == x && this.y0 == y);
     }
 
     @Override

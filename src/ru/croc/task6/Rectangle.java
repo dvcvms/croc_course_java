@@ -16,12 +16,11 @@ public class Rectangle extends Figure {
     }
 
     public boolean comparePoints(int x, int y) {
-        boolean result = (this.x1 == x && this.y1 == y) || (this.x2 == x && this.y2 == y);
-        return result;
+        return (this.x1 == x && this.y1 == y) || (this.x2 == x && this.y2 == y);
     }
 
     @Override
-    public void move(int dx, int dy) { // TODO: modification check
+    public void move(int dx, int dy) {
         this.x1 += dx;
         this.y1 += dy;
 

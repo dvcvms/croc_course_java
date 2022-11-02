@@ -1,6 +1,6 @@
 package ru.croc.task6;
 
-public class Annotation implements Movable { // TODO: may be abstract?
+public class Annotation implements Movable {
 
     private String label = "";
 
