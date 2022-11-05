@@ -3,13 +3,14 @@ package ru.croc.task5;
 public class Task5 {
     public static void main(String[] args) {
 
-        Annotation circle = new Circle(1, 2, 3);
-        Annotation rectangle = new Rectangle(0, 0, 1, 1);
+        Figure obj = new Circle(1, 2, 3);
+        Annotation annotation = new Annotation("test", obj);
 
-        circle.setLabel("circle");
-        rectangle.setLabel("rectangle");
+        Figure obj1 = new Rectangle(4, 5, 6, 7);
+        Annotation annotation1 = new Annotation("test1", obj1);
 
-        System.out.println(circle);
-        System.out.println(rectangle);
+        System.out.println(annotation);
+        System.out.println(annotation1);
+
     }
 }

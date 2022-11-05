@@ -1,19 +1,16 @@
 package ru.croc.task5;
 
 public class Annotation {
+    private String label;
+    private Figure figure;
 
-    private String label = null;
-
-    public void setLabel(String label) {
+    public Annotation(String label, Figure figure) {
         this.label = label;
-    }
-
-    public String getLabel() {
-        return this.label;
+        this.figure = figure;
     }
 
     @Override
     public String toString() {
-        return "";
+        return figure.toString() + this.label;
     }
 }
