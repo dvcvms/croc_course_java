@@ -1,28 +1,26 @@
 package ru.croc.task6;
 
-public class Annotation implements Movable {
+public class Annotation {
 
-    private String label = "";
+    private String label;
+    private Figure figure;
 
-    public void setLabel(String label) {
+    public Annotation(String label, Figure figure) {
         this.label = label;
+        this.figure = figure;
     }
 
-    protected String getLabel() {
-        return this.label;
+    public String getLabel() {
+        return label;
+    }
+
+    public Figure getFigure() {
+        return this.figure;
     }
 
     @Override
     public String toString() {
-        return "";
+        return figure.toString() + this.label;
     }
 
-    public boolean comparePoints(int x, int y) {
-        return false;
-    }
-
-    @Override
-    public void move(int dx, int dy) {
-
-    }
 }

@@ -1,7 +1,6 @@
 package ru.croc.task6;
 
 class AnnotatedImage {
-
     private final String imagePath;
 
     private final Annotation[] annotations;
@@ -21,29 +20,30 @@ class AnnotatedImage {
 
     public Annotation findByPoint(int x, int y) {
 
-        Annotation annotation = null;
+        Annotation resultObj = null;
 
         for (Annotation obj : annotations) {
-            if (obj.comparePoints(x, y)) {
-                annotation = obj;
+
+            if (obj.getFigure().checkPointInArea(x, y)) {
+                resultObj = obj;
                 break;
             }
         }
 
-        return annotation;
+        return resultObj;
     }
 
     public Annotation findByLabel(String label) {
 
-        Annotation annotation = null;
+        Annotation resultObj = null;
 
         for (Annotation obj : annotations) {
             if (obj.getLabel().contains(label)) {
-                annotation = obj;
+                resultObj = obj;
                 break;
             }
         }
 
-        return annotation;
+        return resultObj;
     }
 }

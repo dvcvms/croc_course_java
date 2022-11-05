@@ -1,6 +1,7 @@
 package ru.croc.task6;
 
 public class Rectangle extends Figure {
+
     private int x1, y1, x2, y2;
 
     public Rectangle(int x1, int y1, int x2, int y2) {
@@ -12,11 +13,11 @@ public class Rectangle extends Figure {
 
     @Override
     public String toString() {
-        return "R (" + this.x1 + ", " + this.y1 + "), (" + this.x2 + ", " + this.y2 + "): " + getLabel();
+        return "R (" + this.x1 + ", " + this.y1 + "), (" + this.x2 + ", " + this.y2 + "): ";
     }
-
-    public boolean comparePoints(int x, int y) {
-        return (this.x1 == x && this.y1 == y) || (this.x2 == x && this.y2 == y);
+    
+    public boolean checkPointInArea(int x, int y) {
+        return (x >= this.x1 & x <= this.x2) & (y >= this.y1 & y <= this.y2);
     }
 
     @Override

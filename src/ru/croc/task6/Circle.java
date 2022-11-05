@@ -1,6 +1,7 @@
 package ru.croc.task6;
 
 public class Circle extends Figure {
+
     private int r;
     private int x0, y0;
 
@@ -12,12 +13,13 @@ public class Circle extends Figure {
 
     @Override
     public String toString() {
-        return "C (" + this.x0 + ", " + this.y0 + "), " + this.r + ": " + getLabel();
+        return "C (" + this.x0 + ", " + this.y0 + "), " + this.r + ": ";
     }
 
-    public boolean comparePoints(int x, int y) {
-        return (this.x0 == x && this.y0 == y);
+    public boolean checkPointInArea(int x, int y) {
+        return Math.pow(x - this.x0, 2) + Math.pow(y - this.y0, 2) <= r * r;
     }
+
 
     @Override
     public void move(int dx, int dy) {
