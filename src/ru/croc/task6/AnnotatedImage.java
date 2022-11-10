@@ -29,15 +29,10 @@ class AnnotatedImage {
 
     public Annotation findByLabel(String label) {
 
-        Annotation resultObj = null;
+        for (Annotation obj : annotations)
+            if (obj.getLabel().contains(label))
+                return obj;
 
-        for (Annotation obj : annotations) {
-            if (obj.getLabel().contains(label)) {
-                resultObj = obj;
-                break;
-            }
-        }
-
-        return resultObj;
+        return null;
     }
 }

@@ -1,13 +1,8 @@
 package ru.croc.task6;
 
-public class Figure implements Movable {
+public abstract class Figure implements Movable {
 
+    public abstract boolean checkPointInArea(int x, int y);
 
-    public boolean checkPointInArea(int x, int y) {
-        return false;
-    }
-
-    public void move(int dx, int dy) {
-
-    }
+    public abstract void move(int dx, int dy);
 }
