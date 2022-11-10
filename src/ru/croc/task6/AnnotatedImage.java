@@ -20,17 +20,11 @@ class AnnotatedImage {
 
     public Annotation findByPoint(int x, int y) {
 
-        Annotation resultObj = null;
+        for (Annotation obj : annotations)
+            if (obj.getFigure().checkPointInArea(x, y))
+                return obj;
 
-        for (Annotation obj : annotations) {
-
-            if (obj.getFigure().checkPointInArea(x, y)) {
-                resultObj = obj;
-                break;
-            }
-        }
-
-        return resultObj;
+        return null;
     }
 
     public Annotation findByLabel(String label) {
