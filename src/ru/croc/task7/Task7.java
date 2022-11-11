@@ -15,27 +15,28 @@ public class Task7 {
             e.printStackTrace();
         }
 
-        String[] arr = {"b9", "a2", "c4", "d6"};
+        String[] arr = {"h8", "a2", "c4", "d6"};
 
 
-        ChessPosition[] chessPositions = new ChessPosition[arr.length];
+
+        ChessPosition[] chessPositions;
 
 
         try {
             chessPositions = ChessPosition.parseIntoArrayOfChessPositionObjects(arr);
+            for (int i = 0; i < arr.length; i++)
+                System.out.println(chessPositions[i]);
         } catch (IllegalPositionException e) {
-//            System.out.println(e);
             e.printStackTrace();
+            chessPositions = null;
         }
 
-
-        try {
-            ChessPosition.checkHorseMove(chessPositions);
-        } catch (IllegalMoveException e) {
-//            System.out.println(e);
-            e.printStackTrace();
+        if (chessPositions != null) {
+            try {
+                ChessPosition.checkHorseMove(chessPositions);
+            } catch (IllegalMoveException e) {
+                e.printStackTrace();
+            }
         }
-
-
     }
 }

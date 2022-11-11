@@ -14,29 +14,6 @@ public class ChessPosition {
         this.y = y;
     }
 
-    private int getY() {
-        return y;
-    }
-
-    private int getX() {
-        return x;
-    }
-
-    @Override
-    public String toString() {
-        char[] position = new char[2]; // position = (columnNumber, rowNumber)
-
-        // convert from (1, 1) to (b, 1) view using ASCII Table:
-
-        char columnNumber = (char) (this.x + 97);
-        char rowNumber = (char) (this.y + 48);
-
-        position[0] = columnNumber;
-        position[1] = rowNumber;
-
-        return new String(position);
-    }
-
     public static ChessPosition parse(String position) throws IllegalPositionException {
 
         boolean positionIsCorrect = checkForCorrectStringRepresentation(position);
@@ -44,30 +21,17 @@ public class ChessPosition {
         if (positionIsCorrect) {
 
             int x = position.charAt(0) - 'a';
-            int y = position.charAt(1) - '0';
+            int y = position.charAt(1) - '1';
 
             if (checkOnOutOfRange(x, y)) {
                 throw new IllegalPositionException(x, y);
             }
-            return new ChessPosition(x, y); // TODO: выводить null когда нельзя создать object
+
+            return new ChessPosition(x, y);
 
         } else {
             throw new IllegalPositionException(position);
         }
-    }
-
-    public static ChessPosition[] parseIntoArrayOfChessPositionObjects(String[] str) throws IllegalPositionException {
-
-        if (str.length == 0) {
-            return null;
-        }
-
-        ChessPosition[] arr = new ChessPosition[str.length];
-
-        for (int i = 0; i < str.length; i++)
-            arr[i] = parse(str[i]);
-
-        return arr;
     }
 
     public static void checkHorseMove(ChessPosition... arr) throws IllegalMoveException {
@@ -94,6 +58,43 @@ public class ChessPosition {
         System.out.println("OK");
     }
 
+    public static ChessPosition[] parseIntoArrayOfChessPositionObjects(String[] str) throws IllegalPositionException {
+
+        if (str.length == 0) {
+            return null;
+        }
+
+        ChessPosition[] arr = new ChessPosition[str.length];
+
+        for (int i = 0; i < str.length; i++)
+            arr[i] = parse(str[i]);
+
+        return arr;
+    }
+
+    @Override
+    public String toString() {
+        char[] position = new char[2]; // position = (columnNumber, rowNumber)
+
+        // convert from (1, 1) to (b, 1) view using ASCII Table:
+
+        char columnNumber = (char) (this.x + 97);
+        char rowNumber = (char) (this.y + 49);
+
+        position[0] = columnNumber;
+        position[1] = rowNumber;
+
+        return new String(position);
+    }
+
+    private int getY() {
+        return y;
+    }
+
+    private int getX() {
+        return x;
+    }
+
     private static boolean checkOnOutOfRange(int x, int y) {
         return x < 0 | y < 0 | x > 7 | y > 7;
     }
@@ -102,6 +103,6 @@ public class ChessPosition {
         if (position.length() != 2)
             return false;
 
-        return position.charAt(0) < 'a' || position.charAt(0) > 'h' || position.charAt(1) < '1' || position.charAt(1) > '8';
+        return position.charAt(0) >= 'a' && position.charAt(0) <= 'h' && position.charAt(1) >= '1' && position.charAt(1) <= '8';
     }
 }
