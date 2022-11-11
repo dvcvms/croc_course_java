@@ -102,11 +102,6 @@ public class ChessPosition {
         if (position.length() != 2)
             return false;
 
-        if (position.charAt(0) < 'a' || position.charAt(0) > 'h' ||
-                position.charAt(1) < '1' || position.charAt(1) > '8') {
-            return false;
-        }
-
-        return true;
+        return position.charAt(0) < 'a' || position.charAt(0) > 'h' || position.charAt(1) < '1' || position.charAt(1) > '8';
     }
 }
