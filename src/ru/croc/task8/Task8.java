@@ -1,32 +1,9 @@
 package ru.croc.task8;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
 
+import java.io.*;
 
 public class Task8 {
-
-    public static String readFile(String filePath) throws IOException {
-
-        File file = new File(filePath);
-
-        StringBuilder text = new StringBuilder();
-
-        file.createNewFile();
-
-        InputStream in = new FileInputStream(file);
-
-        int b;
-        while ((b = in.read()) != -1) {
-            text.append((char) b);
-        }
-
-        in.close();
-
-        return text.toString();
-    }
 
     public static int calculateCountWords(String text) {
         int result = 0;
@@ -44,22 +21,44 @@ public class Task8 {
     public static void main(String[] args) {
 
         String filePath = null;
+        StringBuilder text = null;
+        File file = null;
+
+        int result = -1;
 
         try {
             filePath = args[0];
-        } catch (ArrayIndexOutOfBoundsException e) {
+
+            file = new File(filePath);
+
+            file.createNewFile();
+
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException | IOException e) {
             e.printStackTrace();
         }
 
-        if (filePath != null)
-            try {
-                String text = readFile(filePath);
 
-                System.out.println(calculateCountWords(text));
+        try (InputStream in = new FileInputStream(file)) {
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            text = new StringBuilder();
+
+            int b;
+            while ((b = in.read()) != -1) {
+                text.append((char) b);
             }
+
+        } catch (FileNotFoundException | NullPointerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // check: filePath not null, text has been successfully read
+        if (filePath != null && text != null && file != null)
+            result = calculateCountWords(text.toString());
+
+        if (result != -1)
+            System.out.println(result);
 
     }
 }
