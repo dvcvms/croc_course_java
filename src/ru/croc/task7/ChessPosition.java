@@ -58,7 +58,11 @@ public class ChessPosition {
 
     public static ChessPosition[] parseIntoArrayOfChessPositionObjects(String[] str) throws IllegalPositionException {
 
-        ChessPosition[] arr = new ChessPosition[str.length]; // TODO: length may be zero
+        if (str.length == 0) {
+            return null;
+        }
+
+        ChessPosition[] arr = new ChessPosition[str.length];
 
         for (int i = 0; i < str.length; i++)
             arr[i] = parse(str[i]);
@@ -99,8 +103,7 @@ public class ChessPosition {
             return false;
 
         if (position.charAt(0) < 'a' || position.charAt(0) > 'h' ||
-            position.charAt(1) < '1' || position.charAt(1) > '8')
-        {
+                position.charAt(1) < '1' || position.charAt(1) > '8') {
             return false;
         }
 
