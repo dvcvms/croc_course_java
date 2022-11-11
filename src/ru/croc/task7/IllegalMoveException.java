@@ -2,16 +2,17 @@ package ru.croc.task7;
 
 public class IllegalMoveException extends Exception {
 
-    private final String positionFrom;
-    private final String positionTo;
+    private final ChessPosition positionFrom;
+    private final ChessPosition positionTo;
 
-    public IllegalMoveException(String positionFrom, String positionTo) {
+
+    public IllegalMoveException(ChessPosition positionFrom, ChessPosition positionTo) {
         this.positionFrom = positionFrom;
         this.positionTo = positionTo;
     }
 
     @Override
     public String getMessage() {
-        return "Конь так не ходит: " + positionFrom + " -> " + positionTo;
+        return "Конь так не ходит: " + positionFrom.toString() + " -> " + positionTo.toString();
     }
 }

@@ -1,17 +1,19 @@
 package ru.croc.task7;
 
 public class IllegalPositionException extends Exception {
-    private final int x;
-    private final int y;
+
+    private final String invalidPosition;
 
     public IllegalPositionException(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.invalidPosition = Integer.toString(x) + y;
+    }
+
+    public IllegalPositionException(String position) {
+        this.invalidPosition = position;
     }
 
     @Override
     public String getMessage() {
-        return ("Uncorrected chess position ("  + x + ", " + y + ")");
+        return "Invalid chess position - " + this.invalidPosition;
     }
-
 }

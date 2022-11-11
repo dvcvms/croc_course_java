@@ -8,20 +8,32 @@ public class Task7 {
             System.out.println(cp);
 
 
-            ChessPosition obj = ChessPosition.parse("h9");
+            ChessPosition obj = ChessPosition.parse("#9");
             System.out.println(obj);
 
         } catch (IllegalPositionException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        String[] arr = {"b1", "a3", "c4", "d6"};
+        String[] arr = {"b9", "a2", "c4", "d6"};
+
+
+        ChessPosition[] chessPositions = new ChessPosition[arr.length];
 
 
         try {
-            ChessPosition.checkHorseMove("a0", "a1");
+            chessPositions = ChessPosition.parseIntoArrayOfChessPositionObjects(arr);
+        } catch (IllegalPositionException e) {
+//            System.out.println(e);
+            e.printStackTrace();
+        }
+
+
+        try {
+            ChessPosition.checkHorseMove(chessPositions);
         } catch (IllegalMoveException e) {
-            System.out.println(e);
+//            System.out.println(e);
+            e.printStackTrace();
         }
 
 
