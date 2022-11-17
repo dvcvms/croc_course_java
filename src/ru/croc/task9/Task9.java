@@ -19,7 +19,8 @@ public class Task9 {
                 "../КРОК/работа/src/../универ/../мемы/cats/1ph_oto01/../",
                 "./КРОК/работа/src/./универ/./мемы/cats/1ph_oto01/./",
                 "./../КРОК/работа/src/./../универ/./../мемы/cats/1ph_oto01/./../",
-                ".././КРОК/работа/src/.././универ/.././мемы/cats/1ph_oto01/.././"
+                ".././КРОК/работа/src/.././универ/.././мемы/cats/1ph_oto01/.././",
+                "../КРОК/работа/src/./../../универ/мемы/котики"
         };
 
         String[] answers = {
@@ -37,10 +38,11 @@ public class Task9 {
                 "../КРОК/работа/мемы/cats",
                 "КРОК/работа/src/универ/мемы/cats/1ph_oto01",
                 "../КРОК/работа/мемы/cats",
-                "../КРОК/работа/мемы/cats"
+                "../КРОК/работа/мемы/cats",
+                "../КРОК/универ/мемы/котики"
         };
 
-        for (int i = 0; i < tests.length; i++) {
+        for (int i = 0; i < Math.min(tests.length, answers.length); i++) {
             String t = Normalization.normalizePath(tests[i]);
             boolean b = t.equals(answers[i]);
 
@@ -53,7 +55,6 @@ public class Task9 {
             } else {
                 System.out.println("Тест " + i + " - " + b);
             }
-
         }
     }
 }
