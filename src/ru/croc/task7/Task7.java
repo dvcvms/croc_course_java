@@ -1,42 +1,25 @@
 package ru.croc.task7;
 
 public class Task7 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalPositionException, IllegalMoveException {
 
-        try {
-            ChessPosition cp = new ChessPosition(0, 0);
-            System.out.println(cp);
+        ChessPosition cp = new ChessPosition(0, 0);
+        System.out.println(cp);
 
+        ChessPosition obj = ChessPosition.parse("h7");
+        System.out.println(obj);
 
-            ChessPosition obj = ChessPosition.parse("#9");
-            System.out.println(obj);
-
-        } catch (IllegalPositionException e) {
-            e.printStackTrace();
-        }
-
-        String[] arr = {"h8", "a2", "c4", "d6"};
-
-
+        String[] arr = {"g8", "e7", "c8"};
 
         ChessPosition[] chessPositions;
 
-
-        try {
-            chessPositions = ChessPosition.parseIntoArrayOfChessPositionObjects(arr);
+        chessPositions = ChessPosition.parseIntoArrayOfChessPositionObjects(arr);
+        if (chessPositions != null)
             for (int i = 0; i < arr.length; i++)
                 System.out.println(chessPositions[i]);
-        } catch (IllegalPositionException e) {
-            e.printStackTrace();
-            chessPositions = null;
-        }
 
-        if (chessPositions != null) {
-            try {
-                ChessPosition.checkHorseMove(chessPositions);
-            } catch (IllegalMoveException e) {
-                e.printStackTrace();
-            }
-        }
+        ChessPosition.checkHorseMove(chessPositions);
+
     }
 }
+
