@@ -27,8 +27,7 @@ public class Hash {
         return toHexString(bytes);
     }
 
-    public static String test(String t) {
+    public static String getHashOfPassword(String t) {
         return hashPassword(t);
     }
-
 }
