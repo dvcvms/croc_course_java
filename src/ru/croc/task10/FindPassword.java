@@ -28,11 +28,11 @@ public class FindPassword implements Callable<String> {
         this.start = lowerBound + currentSteamNumber * (upperBound - lowerBound) / numberOfThreads + ((currentSteamNumber == 0) ? 0 : 1);
         this.end = lowerBound + (currentSteamNumber + 1) * (upperBound - lowerBound) / numberOfThreads;
 
-        this.passwordIsFounded = false;
+        passwordIsFounded = false;
     }
 
     @Override
-    public String call() throws Exception {
+    public String call() {
         StringBuilder password = new StringBuilder();
 
         for (long i = start; i <= end; i++) {
@@ -54,7 +54,7 @@ public class FindPassword implements Callable<String> {
             }
 
             if (hashPassword.equals(Hash.getHashOfPassword(password.toString()))) {
-                this.passwordIsFounded = true;
+                passwordIsFounded = true;
                 return password.toString();
             }
             password.setLength(0);
