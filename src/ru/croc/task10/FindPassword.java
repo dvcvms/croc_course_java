@@ -1,6 +1,8 @@
 package ru.croc.task10;
 
-public class FindPassword extends Thread {
+import java.util.concurrent.Callable;
+
+public class FindPassword implements Callable<String> {
 
     private final String hashPassword;
 
@@ -10,7 +12,7 @@ public class FindPassword extends Thread {
     private final long start;
     private final long end;
 
-    private static boolean passwordIsFounded = false;
+    private static boolean passwordIsFounded;
 
 
     public FindPassword(int currentSteamNumber, int numberOfThreads, String hashPassword) {
@@ -25,17 +27,19 @@ public class FindPassword extends Thread {
 
         this.start = lowerBound + currentSteamNumber * (upperBound - lowerBound) / numberOfThreads + ((currentSteamNumber == 0) ? 0 : 1);
         this.end = lowerBound + (currentSteamNumber + 1) * (upperBound - lowerBound) / numberOfThreads;
+
+        this.passwordIsFounded = false;
     }
 
     @Override
-    public void run() {
+    public String call() throws Exception {
         StringBuilder password = new StringBuilder();
 
         for (long i = start; i <= end; i++) {
 
             // If password is founded - stop searching password
             if (passwordIsFounded)
-                return;
+                return "";
 
             long t = i;
             while (t > 0) {
@@ -50,13 +54,11 @@ public class FindPassword extends Thread {
             }
 
             if (hashPassword.equals(Hash.getHashOfPassword(password.toString()))) {
-                passwordIsFounded = true;
-                System.out.println("Password is founded: " + password);
-                password.setLength(0);
-                return;
+                this.passwordIsFounded = true;
+                return password.toString();
             }
             password.setLength(0);
         }
-        System.out.println("Password could not be founded"); // TODO: while all threads haven't given a verdict - do not output
+        return ""; // TODO: while all threads haven't given a verdict - do not output
     }
 }
