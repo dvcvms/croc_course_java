@@ -10,7 +10,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotSame;
 
 
-public class PasswordHashTest {
+public class PasswordHashFilterComment {
 
     private static final String INITIAL_HASH = "40682260CC011947FC2D0B1A927138C5";
 

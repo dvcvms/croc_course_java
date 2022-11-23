@@ -5,7 +5,7 @@ import ru.croc.task13.Recommendation;
 
 import java.io.IOException;
 
-public class RecommendationTest {
+public class RecommendationFilterComment {
     @Test
     private void test1() throws IOException {
 
