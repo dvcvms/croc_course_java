@@ -6,9 +6,7 @@ public class Auction {
 
     private volatile int finalBid;
     private volatile String finalBidder = null;
-    private LocalDateTime endTimeOfTheBid;
-
-    private final static Object obj = new Object();
+    private final LocalDateTime endTimeOfTheBid;
 
 
     public Auction(int initialBid, LocalDateTime endTimeOfTheBid) {
@@ -16,13 +14,11 @@ public class Auction {
         this.endTimeOfTheBid = endTimeOfTheBid;
     }
 
-    public void placeBet(int newBid, String bidder) {
+    public synchronized void placeBet(int newBid, String bidder) {
         LocalDateTime dateNewBid = LocalDateTime.now();
-        synchronized (obj) {
-            if (newBid > this.finalBid && dateNewBid.isBefore(this.endTimeOfTheBid)) {
-                this.finalBid = newBid;
-                this.finalBidder = bidder;
-            }
+        if (newBid > this.finalBid && dateNewBid.isBefore(this.endTimeOfTheBid)) {
+            this.finalBid = newBid;
+            this.finalBidder = bidder;
         }
     }
 
