@@ -5,11 +5,8 @@ import java.util.*;
 
 public class Recommendation {
 
-    private final String FILE_MOVIE = "C:/Users/Admin/IdeaProjects/croc_course_java/src/ru/croc/task13/files/films";
-    private final String FILE_WATCH = "C:/Users/Admin/IdeaProjects/croc_course_java/src/ru/croc/task13/files/watch";
-
-    private String specifiedFilePathMovie = null;
-    private String specifiedFilePathWatch = null;
+    private static final String FILE_MOVIES = "C:/Users/Admin/IdeaProjects/croc_course_java/src/ru/croc/task13/files/movies";
+    private static final String FILE_VIEWS = "C:/Users/Admin/IdeaProjects/croc_course_java/src/ru/croc/task13/files/views";
 
     private final Map<Integer, String> movieNumberHashMap = new HashMap<>();
     private final List<Set<Integer>> listOfUserMoves = new ArrayList<>();
@@ -17,36 +14,23 @@ public class Recommendation {
     private final Map<Integer, Integer> numberOfEachFilmsHashMap = new HashMap<>();
 
 
-    public Recommendation() {
-        // system-defined file paths are used
-    }
-
-    public Recommendation(String pathMovie, String pathWatch) {
-        if (pathMovie != null) {
-            specifiedFilePathMovie = pathMovie;
-        }
-        if (pathMovie != null) {
-            specifiedFilePathWatch = pathWatch;
-        }
-    }
-
-    public void readFiles() throws IOException {
-        readListOfFilms(specifiedFilePathMovie == null ? FILE_MOVIE : specifiedFilePathMovie);
-        readUserMovies(specifiedFilePathWatch == null ? FILE_WATCH : specifiedFilePathWatch);
+    public Recommendation() throws IOException {
+        readListOfFilms(FILE_MOVIES);
+        readUserMovies(FILE_VIEWS);
     }
 
     public void getRecommendation() {
-        Set<Integer> inputFilms = new HashSet<>();
+        Set<Integer> inputMovies = new HashSet<>();
 
         Scanner in = new Scanner(System.in);
         String line = in.nextLine();
 
         String[] strings = line.split(",");
         for (String string : strings) {
-            inputFilms.add(Integer.parseInt(string));
+            inputMovies.add(Integer.parseInt(string));
         }
 
-        calculateRecommend(inputFilms);
+        calculateRecommend(inputMovies);
     }
 
     private void readListOfFilms(String path) throws IOException {
@@ -74,14 +58,14 @@ public class Recommendation {
         while (line != null) {
             String[] strings = line.split(",");
 
-            // Find unique films for each of the users
+            // Find unique movies for each of the users
             Set<Integer> uniqueFilms = new HashSet<>();
 
             for (String string : strings) {
-                // Add lost of unique films
+                // Add lost of unique movies
                 uniqueFilms.add(Integer.parseInt(string));
 
-                // Calculate the total number of specific films
+                // Calculate the total number of specific movies
                 numberOfEachFilmsHashMap.merge(Integer.parseInt(string), 1, (a, b) -> (a + b));
             }
 
@@ -90,22 +74,13 @@ public class Recommendation {
         }
     }
 
-/*    private void demonstration() {
-        for (int i = 0; i < movieNumberHashMap.size(); i++) {
-            System.out.println(movieNumberHashMap.get(i + 1));
-        }
-        for (int i = 0; i < listOfUserMoves.size(); i++) {
-            System.out.println(listOfUserMoves.get(i));
-        }
-    }*/
-
-    private void calculateRecommend(Set<Integer> inputFilms) {
+    private void calculateRecommend(Set<Integer> inputMovies) {
         Set<Integer> setOfMoviesNotWatched = new HashSet<>();
 
         for (Set<Integer> userMoves : listOfUserMoves) {
 
             Set<Integer> notWatchedMovies = new HashSet<>(userMoves);
-            notWatchedMovies.removeAll(inputFilms);
+            notWatchedMovies.removeAll(inputMovies);
 
             // Find the fraction of movies not watched in %
             double fraction = (double) notWatchedMovies.size() / userMoves.size() * 100;
@@ -119,13 +94,17 @@ public class Recommendation {
         int movieNumber = -1;
         int maxCountOfViews = -1;
         for (int movieNumberNotWatched : setOfMoviesNotWatched) {
-//            System.out.println(this.map.get(movieNumberNotWatched));
             int t = this.numberOfEachFilmsHashMap.get(movieNumberNotWatched);
             if (t >= maxCountOfViews) {
                 maxCountOfViews = t;
                 movieNumber = movieNumberNotWatched;
             }
         }
-        System.out.println("Recommendation: " + this.movieNumberHashMap.get(movieNumber));
+
+        if (movieNumber == -1) {
+            System.out.println("Among users there aren't movies that we can recommend you");
+        } else {
+            System.out.println("Recommendation: " + this.movieNumberHashMap.get(movieNumber));
+        }
     }
 }
