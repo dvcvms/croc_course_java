@@ -33,6 +33,40 @@ public class Recommendation {
         calculateRecommend(inputMovies);
     }
 
+    private void calculateRecommend(Set<Integer> inputMovies) {
+        Set<Integer> setOfMoviesNotWatched = new HashSet<>();
+
+        for (Set<Integer> userMoves : listOfUserMoves) {
+
+            Set<Integer> notWatchedMovies = new HashSet<>(userMoves);
+            notWatchedMovies.removeAll(inputMovies);
+
+            // Find the fraction of movies not watched in %
+            double fraction = (double) notWatchedMovies.size() / userMoves.size() * 100;
+
+            // watched more than 50 % is not watched less than 50 %
+            if (fraction <= 50) {
+                setOfMoviesNotWatched.addAll(notWatchedMovies);
+            }
+        }
+
+        int movieNumber = -1;
+        int maxCountOfViews = -1;
+        for (int movieNumberNotWatched : setOfMoviesNotWatched) {
+            int t = this.numberOfEachFilmsHashMap.get(movieNumberNotWatched);
+            if (t >= maxCountOfViews) {
+                maxCountOfViews = t;
+                movieNumber = movieNumberNotWatched;
+            }
+        }
+
+        if (movieNumber == -1) {
+            System.out.println("Among users there aren't movies that we can recommend you");
+        } else {
+            System.out.println("Recommendation: " + this.movieNumberHashMap.get(movieNumber));
+        }
+    }
+
     private void readListOfFilms(String path) throws IOException {
 
         File file = new File(path);
@@ -71,40 +105,6 @@ public class Recommendation {
 
             listOfUserMoves.add(uniqueFilms);
             line = reader.readLine();
-        }
-    }
-
-    private void calculateRecommend(Set<Integer> inputMovies) {
-        Set<Integer> setOfMoviesNotWatched = new HashSet<>();
-
-        for (Set<Integer> userMoves : listOfUserMoves) {
-
-            Set<Integer> notWatchedMovies = new HashSet<>(userMoves);
-            notWatchedMovies.removeAll(inputMovies);
-
-            // Find the fraction of movies not watched in %
-            double fraction = (double) notWatchedMovies.size() / userMoves.size() * 100;
-
-            // watched more than 50 % is not watched less than 50 %
-            if (fraction <= 50) {
-                setOfMoviesNotWatched.addAll(notWatchedMovies);
-            }
-        }
-
-        int movieNumber = -1;
-        int maxCountOfViews = -1;
-        for (int movieNumberNotWatched : setOfMoviesNotWatched) {
-            int t = this.numberOfEachFilmsHashMap.get(movieNumberNotWatched);
-            if (t >= maxCountOfViews) {
-                maxCountOfViews = t;
-                movieNumber = movieNumberNotWatched;
-            }
-        }
-
-        if (movieNumber == -1) {
-            System.out.println("Among users there aren't movies that we can recommend you");
-        } else {
-            System.out.println("Recommendation: " + this.movieNumberHashMap.get(movieNumber));
         }
     }
 }
