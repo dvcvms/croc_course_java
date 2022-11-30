@@ -12,16 +12,16 @@ import java.util.List;
 
 public class Directory {
 
-    private static Path rootPath;
-    private static final List<Log> logs = new ArrayList<>();
+    private Path rootPath;
+    private final List<Log> logs = new ArrayList<>();
 
     public Directory(String rootPath) {
-        Directory.rootPath = Path.of(rootPath);
+        this.rootPath = Path.of(rootPath);
     }
 
     public List<Log> readLogs() throws IOException {
 
-        for (File file : Directory.getListFiles()) {
+        for (File file : getListFiles()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
                 String[] strings;
@@ -36,15 +36,15 @@ public class Directory {
         return logs;
     }
 
-    private static List<File> getListFiles() throws IOException {
+    private List<File> getListFiles() throws IOException {
         return Files.walk(rootPath)
                     .filter(Files::isRegularFile)
-                    .filter(Directory::isFileLogType)
+                    .filter(this::isFileLogType)
                     .map(Path::toFile)
                     .toList();
     }
 
-    private static boolean isFileLogType(Path path) {
+    private boolean isFileLogType(Path path) {
         String fileName = path.getFileName().toString();
 
         return fileName.endsWith(".log") || fileName.endsWith(".trace");
