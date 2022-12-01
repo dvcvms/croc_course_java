@@ -1,8 +1,8 @@
 package ru.croc.task16;
 
 public class Log {
-    private Long time;
-    private String message;
+    private final Long time;
+    private final String message;
 
     public Log(Long time, String message) {
         this.time = time;
@@ -10,11 +10,11 @@ public class Log {
     }
 
     public Long getTime() {
-        return time;
+        return this.time;
     }
 
     @Override
     public String toString() {
-        return time + " " + message;
+        return this.time + " " + this.message;
     }
 }

@@ -9,17 +9,20 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Directory {
 
-    private Path rootPath;
+    private final Path rootPath;
     private final List<Log> logs = new ArrayList<>();
 
     public Directory(String rootPath) {
         this.rootPath = Path.of(rootPath);
     }
 
-    public List<Log> readLogs() throws IOException {
+    public List<Log> getResult() {
+        return this.logs;
+    }
+
+    public void readLogs() throws IOException {
 
         for (File file : getListFiles()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -27,21 +30,19 @@ public class Directory {
                 String[] strings;
                 while ((line = reader.readLine()) != null) {
                     strings = line.split(" ");
-                    Log log = new Log(Long.parseLong(strings[0]), strings[1]);
-                    logs.add(log);
+                    logs.add(new Log(Long.parseLong(strings[0]), strings[1]));
                 }
             }
         }
 
-        return logs;
     }
 
     private List<File> getListFiles() throws IOException {
         return Files.walk(rootPath)
-                    .filter(Files::isRegularFile)
-                    .filter(this::isFileLogType)
-                    .map(Path::toFile)
-                    .toList();
+                .filter(Files::isRegularFile)
+                .filter(this::isFileLogType)
+                .map(Path::toFile)
+                .toList();
     }
 
     private boolean isFileLogType(Path path) {
