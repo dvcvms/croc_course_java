@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Graph {
     private Node root;
-    private final Map<String, Node> hashMap = new HashMap<>();
+    private final Map<String, Node> nodes = new HashMap<>();
 
     public Graph() {
         // nothing...
@@ -13,12 +13,12 @@ public class Graph {
 
     public void addNode(String name, String parentName, int time) {
         Node node = new Node(name, parentName, time);
-        hashMap.put(name, node);
+        nodes.put(name, node);
 
         if (parentName.equals("-")) {
             root = node;
         } else {
-            hashMap.get(parentName).addChildren(node);
+            nodes.get(parentName).addChild(node);
         }
     }
 

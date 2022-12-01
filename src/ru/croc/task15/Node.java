@@ -11,15 +11,14 @@ public class Node {
 
     private final List<Node> children = new ArrayList<>();
 
-
     public Node(String name, String parentName, int time) {
         this.name = name;
         this.parentName = parentName;
         this.time = time;
     }
 
-    public void addChildren(Node children) {
-        this.children.add(children);
+    public void addChild(Node child) {
+        this.children.add(child);
     }
 
     public List<Node> getChildren() {
@@ -29,15 +28,4 @@ public class Node {
     public int getTime() {
         return this.time;
     }
-
-
-/*    public int getResult() { // TODO: отдельный метод что значит это обязательно в классе должно быть?
-        int result = 0;
-
-        for (Node n : childrens) {
-            result = Math.max(result, n.getResult());
-        }
-
-        return result + time;
-    }*/
 }
