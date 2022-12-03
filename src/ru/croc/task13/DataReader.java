@@ -1,7 +1,6 @@
 package ru.croc.task13;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -19,25 +18,24 @@ public class DataReader {
     }
 
     public Map<Integer, String> getMovieNumberHashMap() {
-        return movieNumberHashMap;
+        return this.movieNumberHashMap;
     }
 
     public List<Set<Integer>> getListOfUserMoves() {
-        return listOfUserMoves;
+        return this.listOfUserMoves;
     }
 
     public Map<Integer, Integer> getNumberOfEachFilmsHashMap() {
-        return numberOfEachFilmsHashMap;
+        return this.numberOfEachFilmsHashMap;
     }
 
     private void readListOfFilms(String path) throws IOException {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))){
-            String line = reader.readLine();
-            while (line != null) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
                 String[] strings = line.split(",");
-                movieNumberHashMap.put(Integer.parseInt(strings[0]), strings[1]);
-                line = reader.readLine();
+                this.movieNumberHashMap.put(Integer.parseInt(strings[0]), strings[1]);
             }
         }
 
@@ -46,8 +44,8 @@ public class DataReader {
     private void readUserMovies(String path) throws IOException {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            String line = reader.readLine();
-            while (line != null) {
+            String line;
+            while ((line = reader.readLine()) != null) {
                 String[] strings = line.split(",");
 
                 // Find unique movies for each of the users
@@ -58,11 +56,10 @@ public class DataReader {
                     uniqueFilms.add(Integer.parseInt(string));
 
                     // Calculate the total number of specific movies
-                    numberOfEachFilmsHashMap.merge(Integer.parseInt(string), 1, Integer::sum);
+                    this.numberOfEachFilmsHashMap.merge(Integer.parseInt(string), 1, Integer::sum);
                 }
 
-                listOfUserMoves.add(uniqueFilms);
-                line = reader.readLine();
+                this.listOfUserMoves.add(uniqueFilms);
             }
         }
 

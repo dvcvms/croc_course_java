@@ -28,13 +28,20 @@ public class Recommendation {
         for (Set<Integer> userMovies : dataReader.getListOfUserMoves()) {
 
             Set<Integer> notWatchedMovies = new HashSet<>(userMovies);
+
+            int counter = 0;
+            for (int movie : inputMovies) {
+                if (notWatchedMovies.contains(movie)) {
+                    counter++;
+                }
+            }
             notWatchedMovies.removeAll(inputMovies);
 
             // Find the fraction of movies not watched in %
-            double fraction = (double) notWatchedMovies.size() / inputMovies.size() * 100;
+            double fraction = (double) counter / inputMovies.size() * 100;
 
             // watched more than 50 % is not watched less than 50 %
-            if (fraction <= 50) {
+            if (fraction >= 50) {
                 setOfMoviesNotWatched.addAll(notWatchedMovies);
             }
         }
