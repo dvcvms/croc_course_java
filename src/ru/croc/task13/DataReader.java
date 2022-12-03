@@ -8,7 +8,7 @@ import java.util.*;
 public class DataReader {
 
     private final Map<Integer, String> movieNumberHashMap = new HashMap<>();
-    private final List<Set<Integer>> listOfUserMoves = new ArrayList<>();
+    private final List<List<Integer>> listOfUserMoves = new ArrayList<>();
 
     private final Map<Integer, Integer> numberOfEachFilmsHashMap = new HashMap<>();
 
@@ -21,7 +21,7 @@ public class DataReader {
         return this.movieNumberHashMap;
     }
 
-    public List<Set<Integer>> getListOfUserMoves() {
+    public List<List<Integer>> getListOfUserMoves() {
         return this.listOfUserMoves;
     }
 
@@ -49,7 +49,7 @@ public class DataReader {
                 String[] strings = line.split(",");
 
                 // Find unique movies for each of the users
-                Set<Integer> uniqueFilms = new HashSet<>();
+                List<Integer> uniqueFilms = new ArrayList<>();
 
                 for (String string : strings) {
                     // Add lost of unique movies

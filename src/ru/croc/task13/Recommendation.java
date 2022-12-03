@@ -25,7 +25,7 @@ public class Recommendation {
     private String calculateRecommend(Set<Integer> inputMovies) {
         Set<Integer> setOfMoviesNotWatched = new HashSet<>();
 
-        for (Set<Integer> userMovies : dataReader.getListOfUserMoves()) {
+        for (List<Integer> userMovies : dataReader.getListOfUserMoves()) {
 
             Set<Integer> notWatchedMovies = new HashSet<>(userMovies);
 
