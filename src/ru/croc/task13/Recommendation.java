@@ -30,11 +30,12 @@ public class Recommendation {
             Set<Integer> notWatchedMovies = new HashSet<>(userMovies);
 
             int counter = 0;
-            for (int movie : inputMovies) {
-                if (notWatchedMovies.contains(movie)) {
+            for (int movie : userMovies) {
+                if (inputMovies.contains(movie)){
                     counter++;
                 }
             }
+
             notWatchedMovies.removeAll(inputMovies);
 
             // Find the fraction of movies not watched in %
