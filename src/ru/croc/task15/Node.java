@@ -17,15 +17,21 @@ public class Node {
         this.time = time;
     }
 
+    public int getTime() {
+        return this.time;
+    }
+
     public void addChild(Node child) {
         this.children.add(child);
     }
 
-    public List<Node> getChildren() {
-        return this.children;
-    }
+    public int calculateTime() {
+        int result = 0;
 
-    public int getTime() {
-        return this.time;
+        for (Node node : children) {
+            result = Math.max(result, node.calculateTime());
+        }
+
+        return result + this.getTime();
     }
 }
