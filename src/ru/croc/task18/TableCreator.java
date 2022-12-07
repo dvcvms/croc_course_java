@@ -53,8 +53,8 @@ public class TableCreator {
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
 
-                Product t1 = new Product(values[2], values[3], values[4]);
-                Order t2 = new Order(values[0], values[1], values[2]);
+                Product t1 = new Product(values[2], values[3], Integer.parseInt(values[4]));
+                Order t2 = new Order(Integer.parseInt(values[0]), values[1], values[2]);
 
                 if (!setPr.contains(t1)) {
                     insert(con, t1);

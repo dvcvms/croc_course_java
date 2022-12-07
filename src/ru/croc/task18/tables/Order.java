@@ -5,24 +5,18 @@ import java.util.Objects;
 
 public class Order {
 
-    private static int id = 1;
-    private int number;
+    private final int number;
+
     private final String login;
     private String article;
+    private List<Product> articles;
 
     public String getArticle() {
         return article;
     }
 
-    private List<Product> articles;
-
-    @Override
-    public String toString() {
-        return "id = " + id + " number = " + number + " login = " + login + " article = " + article;
-    }
-
-    public Order(String number, String login, String article) {
-        this.number = Integer.parseInt(number);
+    public Order(int number, String login, String article) {
+        this.number = number;
         this.login = login;
         this.article = article;
     }
@@ -37,20 +31,8 @@ public class Order {
         return number;
     }
 
-    public Order(String login) {
-        this.login = login;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public String getLogin() {
         return login;
-    }
-
-    public static void incrementId() {
-        id++;
     }
 
     @Override
@@ -64,5 +46,15 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(login);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "number=" + number +
+                ", login='" + login + '\'' +
+                ", article='" + article + '\'' +
+                ", articles=" + articles +
+                '}';
     }
 }

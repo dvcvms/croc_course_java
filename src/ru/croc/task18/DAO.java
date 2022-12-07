@@ -1,6 +1,5 @@
 package ru.croc.task18;
 
-import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import ru.croc.task18.tables.Order;
 import ru.croc.task18.tables.Product;
 
@@ -30,7 +29,7 @@ public class DAO {
                 while (result.next()) {
                     product.setArticle(result.getString("ID"));
                     product.setName(result.getString("NAME"));
-                    product.setPrice(result.getString("PRICE"));
+                    product.setPrice(result.getInt("PRICE"));
                     return product;
                 }
             }
@@ -38,10 +37,10 @@ public class DAO {
         return null;
     }
 
-    Product createProduct(Product product) throws SQLException, IllegalException {
+    Product createProduct(Product product) throws SQLException, IllegalProductMissingException {
 
         if (findProduct(product.getArticle()) != null) {
-            throw new IllegalException(product);
+            throw new IllegalProductMissingException(product);
         } else {
             String SQL = "INSERT INTO " + Product.class.getSimpleName() + "(ID, NAME, PRICE) VALUES" +
                     "('" + product.getArticle() + "', '" + product.getName() + "', " + product.getPrice() + ");";
@@ -66,7 +65,7 @@ public class DAO {
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, product.getName());
-            statement.setString(2, product.getPrice());
+            statement.setInt(2, product.getPrice());
             statement.executeUpdate();
             return product;
         }

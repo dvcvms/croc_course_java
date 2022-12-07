@@ -1,7 +1,5 @@
 package ru.croc.task18;
 
-import ru.croc.task18.TableCreator;
-import ru.croc.task18.tables.Order;
 import ru.croc.task18.tables.Product;
 
 import java.io.IOException;
@@ -22,7 +20,7 @@ public class Task18 {
 
     private static final String PATH = "C:\\Users\\Admin\\IdeaProjects\\croc_course_java\\src\\ru\\croc\\task17\\data\\orders.csv";
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, IllegalException {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, IllegalProductMissingException {
         Class.forName(JDBC_DRIVER);
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)){
@@ -32,10 +30,10 @@ public class Task18 {
             DAO dao = new DAO(connection);
             System.out.println(dao.findProduct("Т1"));
 
-            System.out.println(dao.createProduct(new Product("Т6", "Car", "10000")));
+            System.out.println(dao.createProduct(new Product("Т6", "Car", 10000)));
 //            System.out.println(dao.createProduct(new Product("Т3", "Table", "780")));
 
-            System.out.println(dao.updateProduct(new Product("Т2", "Pen", "20")));
+            System.out.println(dao.updateProduct(new Product("Т2", "Pen", 20)));
 
             dao.deleteProduct("Т4");
             System.out.println(dao.findProduct("Т4"));

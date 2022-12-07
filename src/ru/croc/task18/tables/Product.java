@@ -3,28 +3,16 @@ package ru.croc.task18.tables;
 import java.util.Objects;
 
 public class Product {
-    private  String article;
-    private  String name;
 
-    public void setArticle(String article) {
-        this.article = article;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    private  String price;
+    private String article;
+    private String name;
+    private int price;
 
     public Product() {
 
     }
 
-    public Product(String article, String name, String price) {
+    public Product(String article, String name, int price) {
         this.article = article;
         this.name = name;
         this.price = price;
@@ -38,8 +26,20 @@ public class Product {
         return name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return article.equals(product.article) && name.equals(product.name) && price.equals(product.price);
+        return price == product.price && article.equals(product.article) && name.equals(product.name);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Product {
         return "Product{" +
                 "article='" + article + '\'' +
                 ", name='" + name + '\'' +
-                ", price='" + price + '\'' +
+                ", price=" + price +
                 '}';
     }
 }
