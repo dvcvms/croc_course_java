@@ -2,33 +2,36 @@ package ru.croc.task17.tables;
 
 import java.util.Objects;
 
-public class User {
+public class Order {
 
-    private static int id = 1;
+    private final int number;
     private final String login;
+    private String article;
 
-    public User(String login) {
+    public Order(int number, String login, String article) {
+        this.number = number;
         this.login = login;
+        this.article = article;
     }
 
-    public int getId() {
-        return id;
+    public int getNumber() {
+        return number;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public static void incrementId() {
-        id++;
+    public String getArticle() {
+        return article;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return login.equals(user.login);
+        Order order = (Order) o;
+        return login.equals(order.login);
     }
 
     @Override

@@ -3,11 +3,12 @@ package ru.croc.task17.tables;
 import java.util.Objects;
 
 public class Product {
-    private final String article;
-    private final String name;
-    private final String price;
 
-    public Product(String article, String name, String price) {
+    private String article;
+    private String name;
+    private int price;
+
+    public Product(String article, String name, int price) {
         this.article = article;
         this.name = name;
         this.price = price;
@@ -21,7 +22,7 @@ public class Product {
         return name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -30,7 +31,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return article.equals(product.article) && name.equals(product.name) && price.equals(product.price);
+        return price == product.price && article.equals(product.article) && name.equals(product.name);
     }
 
     @Override

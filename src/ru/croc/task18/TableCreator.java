@@ -13,8 +13,6 @@ import java.util.Set;
 public class TableCreator {
 
     private static Set<Product> setPr = new HashSet<>();
-    private static Set<Order> setUs = new HashSet<>();
-
 
     public static void newCreateTable(Connection connectionNew) throws SQLException {
         try (Statement statementNew = connectionNew.createStatement()) {
@@ -74,13 +72,13 @@ public class TableCreator {
         }
     }
 
-    private static void insertUsers(Connection con, Order user) throws SQLException {
+    private static void insertUsers(Connection con, Order order) throws SQLException {
         try (Statement statementNew = con.createStatement()) {
             String sql;
             sql = "INSERT INTO ORDERS " + " VALUES( "
-                    + user.getNumber() + ", '"
-                    + user.getLogin() + "', '"
-                    + user.getArticle() + "')";
+                    + order.getNumber() + ", '"
+                    + order.getLogin() + "', '"
+                    + order.getArticle() + "')";
 
             statementNew.executeUpdate(sql);
         }

@@ -1,10 +1,9 @@
 package ru.croc.task17;
 
 import ru.croc.task17.tables.Product;
-import ru.croc.task17.tables.User;
+import ru.croc.task17.tables.Order;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,10 +12,7 @@ import java.util.Set;
 
 public class TableCreator {
 
-    private static int counter = 0;
     private static Set<Product> setPr = new HashSet<>();
-    private static Set<User> setUs = new HashSet<>();
-
 
     public static void newCreateTable(Connection connectionNew) throws SQLException {
         try (Statement statementNew = connectionNew.createStatement()) {
@@ -26,7 +22,7 @@ public class TableCreator {
             String test;
 
             String closeProducts = "DROP TABLE IF EXISTS PRODUCT;";
-            String closeUsers = "DROP TABLE IF EXISTS USERS;";
+            String closeUsers = "DROP TABLE IF EXISTS ORDERS;";
 
             statementNew.executeUpdate(closeProducts);
             statementNew.executeUpdate(closeUsers);
@@ -39,10 +35,10 @@ public class TableCreator {
 
             statementNew.executeUpdate(products);
 
-            users = "CREATE TABLE IF NOT EXISTS Users("
-                    + "ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, "
-                    + "LOGIN VARCHAR(20) "
-                    + ")";
+            users = "CREATE TABLE \"ORDERS\"" +
+                    "(NUMBER INT, " +
+                    "LOGIN VARCHAR(255), " +
+                    "ARTICLE VARCHAR(255));";
 
             statementNew.executeUpdate(users);
         }
@@ -55,18 +51,14 @@ public class TableCreator {
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
 
-                Product t1 = new Product(values[2], values[3], values[4]);
-                User t2 = new User(values[1]);
+                Product t1 = new Product(values[2], values[3], Integer.parseInt(values[4]));
+                Order t2 = new Order(Integer.parseInt(values[0]), values[1], values[2]);
 
                 if (!setPr.contains(t1)){
                     insert(con, t1);
                     setPr.add(t1);
                 }
-                if (!setUs.contains(t2)) {
-                    insertUsers(con, t2);
-                    setUs.add(t2);
-                    User.incrementId();
-                }
+                insertUsers(con, t2);
             }
         }
 
@@ -80,15 +72,15 @@ public class TableCreator {
         }
     }
 
-    private static void insertUsers(Connection con, User user) throws SQLException {
+    private static void insertUsers(Connection con, Order order) throws SQLException {
         try (Statement statementNew = con.createStatement()) {
             String sql;
-            sql = "INSERT INTO USERS " + " VALUES( "
-                    + user.getId() + ", '"
-                    + user.getLogin() + "' ) ";
+            sql = "INSERT INTO ORDERS " + " VALUES( "
+                    + order.getNumber() + ", '"
+                    + order.getLogin() + "', '"
+                    + order.getArticle() + "')";
 
             statementNew.executeUpdate(sql);
         }
-        counter++;
     }
 }

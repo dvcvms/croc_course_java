@@ -6,14 +6,10 @@ import java.util.Objects;
 public class Order {
 
     private final int number;
-
     private final String login;
     private String article;
-    private List<Product> articles;
 
-    public String getArticle() {
-        return article;
-    }
+    private List<Product> articles;
 
     public Order(int number, String login, String article) {
         this.number = number;
@@ -33,6 +29,10 @@ public class Order {
 
     public String getLogin() {
         return login;
+    }
+
+    public String getArticle() {
+        return article;
     }
 
     @Override
