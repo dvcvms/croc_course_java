@@ -1,13 +1,9 @@
 package ru.croc.task17;
 
-import ru.croc.task17.tables.*;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Set;
 
 public class Task17 {
 
@@ -25,9 +21,8 @@ public class Task17 {
         Class.forName(JDBC_DRIVER);
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)){
-
-            TableCreator.newCreateTable(connection);
-            TableCreator.insertTables(connection, PATH);
+            TableCreator.createTables(connection);
+            TableCreator.fillTablesWithData(connection, PATH);
         }
 
     }

@@ -14,20 +14,19 @@ public class TableCreator {
 
     private static Set<Product> setPr = new HashSet<>();
 
-    public static void newCreateTable(Connection connectionNew) throws SQLException {
+    public static void createTables(Connection connectionNew) throws SQLException {
         try (Statement statementNew = connectionNew.createStatement()) {
 
             String products;
             String users;
-            String test;
 
-            String closeProducts = "DROP TABLE IF EXISTS PRODUCT;";
+            String closeProducts = "DROP TABLE IF EXISTS PRODUCTS;";
             String closeUsers = "DROP TABLE IF EXISTS ORDERS;";
 
             statementNew.executeUpdate(closeProducts);
             statementNew.executeUpdate(closeUsers);
 
-            products = "CREATE TABLE IF NOT EXISTS PRODUCT " +
+            products = "CREATE TABLE IF NOT EXISTS PRODUCTS " +
                     "(ID VARCHAR(255) not NULL, " +
                     " NAME VARCHAR(255) not NULL, " +
                     " PRICE INTEGER not NULL, " +
@@ -44,7 +43,7 @@ public class TableCreator {
         }
     }
 
-    public static void insertTables(Connection con, String pathToCSV) throws SQLException, IOException {
+    public static void fillTablesWithData(Connection con, String pathToCSV) throws SQLException, IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(pathToCSV))) {
 
             String line;
@@ -55,24 +54,24 @@ public class TableCreator {
                 Order t2 = new Order(Integer.parseInt(values[0]), values[1], values[2]);
 
                 if (!setPr.contains(t1)) {
-                    insert(con, t1);
+                    insertProduct(con, t1);
                     setPr.add(t1);
                 }
-                insertUsers(con, t2);
+                insertOrder(con, t2);
             }
         }
 
     }
 
-    private static void insert(Connection con, Product product) throws SQLException {
+    private static void insertProduct(Connection con, Product product) throws SQLException {
         try (Statement statementNew = con.createStatement()) {
             String sql;
-            sql = "INSERT INTO PRODUCT " + " VALUES( '" + product.getArticle() + "', '" + product.getName() + "',  " + product.getPrice() + ")";
+            sql = "INSERT INTO PRODUCTS " + " VALUES( '" + product.getArticle() + "', '" + product.getName() + "',  " + product.getPrice() + ")";
             statementNew.executeUpdate(sql);
         }
     }
 
-    private static void insertUsers(Connection con, Order order) throws SQLException {
+    private static void insertOrder(Connection con, Order order) throws SQLException {
         try (Statement statementNew = con.createStatement()) {
             String sql;
             sql = "INSERT INTO ORDERS " + " VALUES( "

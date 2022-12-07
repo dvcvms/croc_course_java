@@ -24,8 +24,8 @@ public class Task18 {
         Class.forName(JDBC_DRIVER);
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)){
-            TableCreator.newCreateTable(connection);
-            TableCreator.insertTables(connection, PATH);
+            TableCreator.createTables(connection);
+            TableCreator.fillTablesWithData(connection, PATH);
 
             DAO dao = new DAO(connection);
             System.out.println(dao.findProduct("Т1"));

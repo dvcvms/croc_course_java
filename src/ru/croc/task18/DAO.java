@@ -8,9 +8,8 @@ import java.util.List;
 
 public class DAO {
 
-    private  final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (NUMBER, LOGIN, ARTICLE) VALUES (?,?,?)";
-
     private Connection connection;
+    private final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (NUMBER, LOGIN, ARTICLE) VALUES (?,?,?)";
 
     public DAO(Connection connection) {
         this.connection = connection;
@@ -21,7 +20,7 @@ public class DAO {
         Product product = new Product();
 
 
-        String sql = "SELECT * FROM PRODUCT WHERE ID = ?";
+        String sql = "SELECT * FROM PRODUCTS WHERE ID = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, productCode);
@@ -61,7 +60,7 @@ public class DAO {
         }*/
 
         String sql =
-                String.format("UPDATE PRODUCT SET NAME = ?, PRICE = ? WHERE ID = '%s'", product.getArticle());
+                String.format("UPDATE PRODUCTS SET NAME = ?, PRICE = ? WHERE ID = '%s'", product.getArticle());
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, product.getName());
@@ -85,7 +84,7 @@ public class DAO {
         }
     }
 
-    public  Order createOrder(String userLogin, List<Product> products) throws ClassNotFoundException, SQLException {
+    public Order createOrder(String userLogin, List<Product> products) throws ClassNotFoundException, SQLException {
         int orderId = 0;
 
         try (PreparedStatement preparedStatement =
