@@ -1,10 +1,11 @@
 package ru.croc.task18;
 
-import ru.croc.task18.tables.Product;
 import ru.croc.task18.tables.Order;
+import ru.croc.task18.tables.Product;
 
 import java.io.*;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
@@ -12,74 +13,77 @@ import java.util.Set;
 
 public class TableCreator {
 
-    private static Set<Product> setPr = new HashSet<>();
+    private static final Set<Product> productTypes = new HashSet<>();
 
-    public static void createTables(Connection connectionNew) throws SQLException {
-        try (Statement statementNew = connectionNew.createStatement()) {
+    public static void createTables(Connection connection) throws SQLException {
+
+        try (Statement statement = connection.createStatement()) {
 
             String products;
             String users;
 
-            String closeProducts = "DROP TABLE IF EXISTS PRODUCTS;";
-            String closeUsers = "DROP TABLE IF EXISTS ORDERS;";
+            String closeProducts = "DROP TABLE IF EXISTS PRODUCTS;"; // TODO: Check logic
+            String closeUsers = "DROP TABLE IF EXISTS ORDERS;"; // TODO: too
 
-            statementNew.executeUpdate(closeProducts);
-            statementNew.executeUpdate(closeUsers);
+            statement.executeUpdate(closeProducts);
+            statement.executeUpdate(closeUsers);
 
             products = "CREATE TABLE IF NOT EXISTS PRODUCTS " +
-                    "(ID VARCHAR(255) not NULL, " +
+                    "(ARTICLE VARCHAR(255) not NULL, " +
                     " NAME VARCHAR(255) not NULL, " +
                     " PRICE INTEGER not NULL, " +
-                    " PRIMARY KEY ( ID ))";
+                    " PRIMARY KEY ( ARTICLE ))";
 
-            statementNew.executeUpdate(products);
+            statement.executeUpdate(products);
 
             users = "CREATE TABLE \"ORDERS\"" +
                     "(NUMBER INT, " +
                     "LOGIN VARCHAR(255), " +
                     "ARTICLE VARCHAR(255));";
 
-            statementNew.executeUpdate(users);
+            statement.executeUpdate(users);
         }
     }
 
-    public static void fillTablesWithData(Connection con, String pathToCSV) throws SQLException, IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(pathToCSV))) {
+    public static void fillTablesWithData(Connection connection, String pathToCSV) throws SQLException, IOException {
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] values = line.split(",");
+        String queryProduct = "INSERT INTO PRODUCTS (ARTICLE, NAME, PRICE) VALUES (?,?,?)";
+        String queryOrder = "INSERT INTO ORDERS (NUMBER, LOGIN, ARTICLE) VALUES (?,?,?)";
 
-                Product t1 = new Product(values[2], values[3], Integer.parseInt(values[4]));
-                Order t2 = new Order(Integer.parseInt(values[0]), values[1], values[2]);
+        try (PreparedStatement statement = connection.prepareStatement(queryProduct);
+             PreparedStatement statement2 = connection.prepareStatement(queryOrder))
+        {
+            try (BufferedReader reader = new BufferedReader(new FileReader(pathToCSV))) {
 
-                if (!setPr.contains(t1)) {
-                    insertProduct(con, t1);
-                    setPr.add(t1);
+                String line;
+                while ((line = reader.readLine()) != null) {
+
+                    Product product = Product.parse(line);
+                    Order order = Order.parse(line);
+
+                    if (!productTypes.contains(product)) {
+                        insertProduct(statement, product);
+                        productTypes.add(product);
+
+                        statement.executeUpdate();
+                    }
+                    insertOrder(statement2, order);
+
+                    statement2.executeUpdate();
                 }
-                insertOrder(con, t2);
             }
         }
-
     }
 
-    private static void insertProduct(Connection con, Product product) throws SQLException {
-        try (Statement statementNew = con.createStatement()) {
-            String sql;
-            sql = "INSERT INTO PRODUCTS " + " VALUES( '" + product.getArticle() + "', '" + product.getName() + "',  " + product.getPrice() + ")";
-            statementNew.executeUpdate(sql);
-        }
+    private static void insertProduct(PreparedStatement st1, Product product) throws SQLException {
+        st1.setString(1, product.getArticle());
+        st1.setString(2, product.getName());
+        st1.setInt(3, product.getPrice());
     }
 
-    private static void insertOrder(Connection con, Order order) throws SQLException {
-        try (Statement statementNew = con.createStatement()) {
-            String sql;
-            sql = "INSERT INTO ORDERS " + " VALUES( "
-                    + order.getNumber() + ", '"
-                    + order.getLogin() + "', '"
-                    + order.getArticle() + "')";
-
-            statementNew.executeUpdate(sql);
-        }
+    private static void insertOrder(PreparedStatement st2, Order order) throws SQLException {
+        st2.setInt(1, order.getNumber());
+        st2.setString(2, order.getLogin());
+        st2.setString(3, order.getArticle());
     }
 }

@@ -8,7 +8,7 @@ public class Product {
     private String name;
     private int price;
 
-    public Product() {
+    public Product() { // TODO: delete?
 
     }
 
@@ -62,5 +62,10 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 '}';
+    }
+
+    public static Product parse(String line) { // TODO: change name arg
+        String[] args = line.split(",");
+        return new Product(args[2], args[3], Integer.parseInt(args[4]));
     }
 }

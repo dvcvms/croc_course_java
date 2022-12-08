@@ -8,25 +8,24 @@ import java.util.List;
 
 public class DAO {
 
-    private Connection connection;
-    private final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (NUMBER, LOGIN, ARTICLE) VALUES (?,?,?)";
+    private final Connection connection;
+    private final String queryPattern = "INSERT INTO ORDERS (NUMBER, LOGIN, ARTICLE) VALUES (?,?,?)";
 
     public DAO(Connection connection) {
         this.connection = connection;
     }
 
-    Product findProduct(String productCode) throws SQLException {
+    public Product findProduct(String productCode) throws SQLException {
 
         Product product = new Product();
 
+        String query = "SELECT * FROM PRODUCTS WHERE ARTICLE = ?";
 
-        String sql = "SELECT * FROM PRODUCTS WHERE ID = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, productCode);
             try (ResultSet result = statement.executeQuery()) {
                 while (result.next()) {
-                    product.setArticle(result.getString("ID"));
+                    product.setArticle(result.getString("ARTICLE"));
                     product.setName(result.getString("NAME"));
                     product.setPrice(result.getInt("PRICE"));
                     return product;
@@ -36,23 +35,28 @@ public class DAO {
         return null;
     }
 
-    Product createProduct(Product product) throws SQLException, IllegalProductMissingException {
+    public Product createProduct(Product product) throws SQLException, IllegalProductMissingException {
 
         if (findProduct(product.getArticle()) != null) {
             throw new IllegalProductMissingException(product);
         } else {
-            String SQL = "INSERT INTO " + Product.class.getSimpleName() + "(ID, NAME, PRICE) VALUES" +
-                    "('" + product.getArticle() + "', '" + product.getName() + "', " + product.getPrice() + ");";
+            String query = "INSERT INTO PRODUCTS (ARTICLE, NAME, PRICE) VALUES (?,?,?)";
+//            String query = "INSERT INTO PRODUCTS " + "(ARTICLE, NAME, PRICE) VALUES" +
+//                    "('" + product.getArticle() + "', '" + product.getName() + "', " + product.getPrice() + ");";
 
-            try (Statement statement = connection.createStatement()) {
-                statement.execute(SQL);
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, product.getArticle());
+                statement.setString(2, product.getName());
+                statement.setInt(3, product.getPrice());
+
+                statement.executeUpdate(query);
             }
 
             return product;
         }
     }
 
-    Product updateProduct(Product product) throws SQLException {
+    public Product updateProduct(Product product) throws SQLException {
 
 /*        if (findProduct(product.getArticle()) == null) {
             System.out.println("Данного товара не существует");
@@ -70,7 +74,7 @@ public class DAO {
         }
     }
 
-    void deleteProduct(String productCode) throws SQLException {
+    public void deleteProduct(String productCode) throws SQLException {
 
         String SQL_ORDER = "DELETE " + "\"" + "ORDERS" + "\"" +
                 " WHERE ARTICLE = '" + productCode + "';";
@@ -97,7 +101,7 @@ public class DAO {
         }
 
         for (Product product : products) {
-            try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_ORDERS)) {
+            try (PreparedStatement statement = connection.prepareStatement(queryPattern)) {
                 statement.setInt(1, orderId);
                 statement.setString(2, userLogin);
                 statement.setString(3, product.getArticle());

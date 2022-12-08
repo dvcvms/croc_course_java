@@ -5,6 +5,7 @@ import ru.croc.task17.tables.Order;
 
 import java.io.*;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
@@ -44,38 +45,60 @@ public class TableCreator {
         }
     }
 
+
     // TODO: Добавить предварительный запрос, чтобы каждый раз не обращаться к бд, а сразу кинуть всю инфу
+
     public static void fillTablesWithData(Connection connection, String pathToCSV) throws SQLException, IOException {
 
-         try (BufferedReader reader = new BufferedReader(new FileReader(pathToCSV))) {
+        String queryProductPattern = "INSERT INTO PRODUCTS (ARTICLE, NAME, PRICE) VALUES (?,?,?)";
+        String queryOrderPattern = "INSERT INTO ORDERS (NUMBER, LOGIN, ARTICLE) VALUES (?,?,?)";
 
-            String line;
-            while ((line = reader.readLine()) != null) {
+        try (PreparedStatement statement = connection.prepareStatement(queryProductPattern);
+             PreparedStatement statement2 = connection.prepareStatement(queryOrderPattern))
+        {
+            try (BufferedReader reader = new BufferedReader(new FileReader(pathToCSV))) {
 
-                String[] args = line.split(",");
+                String line;
+                while ((line = reader.readLine()) != null) {
 
-                Product product = Product.parse(line);
-                Order order = Order.parse(line);
+                    Product product = Product.parse(line);
+                    Order order = Order.parse(line);
 
-                if (!productTypes.contains(product)){
-                    insertProduct(connection, product);
-                    productTypes.add(product);
+                    if (!productTypes.contains(product)) {
+                        insertProduct(statement, product);
+                        productTypes.add(product);
+
+                        statement.executeUpdate();
+                    }
+                    insertOrder(statement2, order);
+
+                    statement2.executeUpdate();
                 }
-                insertOrder(connection, order);
             }
-
         }
     }
 
-    private static void insertProduct(Connection connection, Product product) throws SQLException { // TODO: add pattern sql
+    private static void insertProduct(PreparedStatement st1, Product product) throws SQLException {
+        st1.setString(1, product.getArticle());
+        st1.setString(2, product.getName());
+        st1.setInt(3, product.getPrice());
+    }
+
+    private static void insertOrder(PreparedStatement st2, Order order) throws SQLException {
+        st2.setInt(1, order.getNumber());
+        st2.setString(2, order.getLogin());
+        st2.setString(3, order.getArticle());
+    }
+
+/*    private static void insertProduct(Connection connection, Product product) throws SQLException { // TODO: add pattern sql
         try (Statement statement = connection.createStatement()) {
             String sql;
             sql = "INSERT INTO PRODUCTS " + " VALUES( '" + product.getArticle() + "', '" + product.getName() + "',  " + product.getPrice() + ")";
             statement.executeUpdate(sql);
         }
-    }
+    }*/
 
-    private static void insertOrder(Connection connection, Order order) throws SQLException { // TODO: add pattern sql
+/*    private static void insertOrder(Connection connection, Order order) throws SQLException { // TODO: add pattern sql
         try (Statement statement = connection.createStatement()) {
             String sql;
             sql = "INSERT INTO ORDERS " + " VALUES( "
@@ -85,5 +108,5 @@ public class TableCreator {
 
             statement.executeUpdate(sql);
         }
-    }
+    }*/
 }
