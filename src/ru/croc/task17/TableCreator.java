@@ -12,74 +12,78 @@ import java.util.Set;
 
 public class TableCreator {
 
-    private static final Set<Product> setPr = new HashSet<>();
+    private static final Set<Product> productTypes = new HashSet<>();
 
-    public static void createTables(Connection connectionNew) throws SQLException {
-        try (Statement statementNew = connectionNew.createStatement()) {
+    public static void createTables(Connection connection) throws SQLException {
+
+        try (Statement statement = connection.createStatement()) {
 
             String products;
             String users;
 
-            String closeProducts = "DROP TABLE IF EXISTS PRODUCTS;";
-            String closeUsers = "DROP TABLE IF EXISTS ORDERS;";
+            String closeProducts = "DROP TABLE IF EXISTS PRODUCTS;"; // TODO: Check logic
+            String closeUsers = "DROP TABLE IF EXISTS ORDERS;"; // TODO: too
 
-            statementNew.executeUpdate(closeProducts);
-            statementNew.executeUpdate(closeUsers);
+            statement.executeUpdate(closeProducts);
+            statement.executeUpdate(closeUsers);
 
             products = "CREATE TABLE IF NOT EXISTS PRODUCTS " +
-                    "(ID VARCHAR(255) not NULL, " +
+                    "(ARTICLE VARCHAR(255) not NULL, " +
                     " NAME VARCHAR(255) not NULL, " +
                     " PRICE INTEGER not NULL, " +
-                    " PRIMARY KEY ( ID ))";
+                    " PRIMARY KEY ( ARTICLE ))";
 
-            statementNew.executeUpdate(products);
+            statement.executeUpdate(products);
 
             users = "CREATE TABLE \"ORDERS\"" +
                     "(NUMBER INT, " +
                     "LOGIN VARCHAR(255), " +
                     "ARTICLE VARCHAR(255));";
 
-            statementNew.executeUpdate(users);
+            statement.executeUpdate(users);
         }
     }
 
-    public static void fillTablesWithData(Connection con, String pathToCSV) throws SQLException, IOException {
+    // TODO: Добавить предварительный запрос, чтобы каждый раз не обращаться к бд, а сразу кинуть всю инфу
+    public static void fillTablesWithData(Connection connection, String pathToCSV) throws SQLException, IOException {
+
          try (BufferedReader reader = new BufferedReader(new FileReader(pathToCSV))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] values = line.split(",");
 
-                Product t1 = new Product(values[2], values[3], Integer.parseInt(values[4]));
-                Order t2 = new Order(Integer.parseInt(values[0]), values[1], values[2]);
+                String[] args = line.split(",");
 
-                if (!setPr.contains(t1)){
-                    insertProduct(con, t1);
-                    setPr.add(t1);
+                Product product = Product.parse(line);
+                Order order = Order.parse(line);
+
+                if (!productTypes.contains(product)){
+                    insertProduct(connection, product);
+                    productTypes.add(product);
                 }
-                insertOrder(con, t2);
+                insertOrder(connection, order);
             }
-        }
 
+        }
     }
 
-    private static void insertProduct(Connection con, Product product) throws SQLException {
-        try (Statement statementNew = con.createStatement()) {
+    private static void insertProduct(Connection connection, Product product) throws SQLException { // TODO: add pattern sql
+        try (Statement statement = connection.createStatement()) {
             String sql;
             sql = "INSERT INTO PRODUCTS " + " VALUES( '" + product.getArticle() + "', '" + product.getName() + "',  " + product.getPrice() + ")";
-            statementNew.executeUpdate(sql);
+            statement.executeUpdate(sql);
         }
     }
 
-    private static void insertOrder(Connection con, Order order) throws SQLException {
-        try (Statement statementNew = con.createStatement()) {
+    private static void insertOrder(Connection connection, Order order) throws SQLException { // TODO: add pattern sql
+        try (Statement statement = connection.createStatement()) {
             String sql;
             sql = "INSERT INTO ORDERS " + " VALUES( "
                     + order.getNumber() + ", '"
                     + order.getLogin() + "', '"
                     + order.getArticle() + "')";
 
-            statementNew.executeUpdate(sql);
+            statement.executeUpdate(sql);
         }
     }
 }

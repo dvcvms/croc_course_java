@@ -38,4 +38,9 @@ public class Order {
     public int hashCode() {
         return Objects.hash(login);
     }
+
+    public static Order parse(String line) { // TODO: change name arg
+        String[] args = line.split(",");
+        return new Order(Integer.parseInt(args[0]), args[1], args[2]);
+    }
 }
