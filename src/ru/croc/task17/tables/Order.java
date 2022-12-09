@@ -26,6 +26,11 @@ public class Order {
         return article;
     }
 
+    public static Order parse(String line) {
+        String[] args = line.split(",");
+        return new Order(Integer.parseInt(args[0]), args[1], args[2]);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -37,10 +42,5 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(login);
-    }
-
-    public static Order parse(String line) { // TODO: change name arg
-        String[] args = line.split(",");
-        return new Order(Integer.parseInt(args[0]), args[1], args[2]);
     }
 }

@@ -1,9 +1,9 @@
 package ru.croc.task17;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.io.IOException;
 
 public class Task17 {
 
@@ -13,16 +13,13 @@ public class Task17 {
     private static final String USERNAME = "max";
     private static final String PASSWORD = "java";
 
-
-    private static final String PATH = "C:\\Users\\Admin\\IdeaProjects\\croc_course_java\\src\\ru\\croc\\task17\\data\\orders.csv";
-
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
 
         Class.forName(JDBC_DRIVER);
 
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)){
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
             TableCreator.createTables(connection);
-            TableCreator.fillTablesWithData(connection, PATH);
+            TableCreator.fillTablesWithData(connection, args[0]);
         }
 
     }
