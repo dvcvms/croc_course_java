@@ -64,8 +64,8 @@ public class Product {
                 '}';
     }
 
-    public static Product parse(String line) { // TODO: change name arg
+    public static Product parse(String line) {
         String[] args = line.split(",");
-        return new Product(args[2], args[3], Integer.parseInt(args[4]));
+        return new Product(args[2], args[3], Integer.parseInt(args[4].replaceAll(" ", "")));
     }
 }

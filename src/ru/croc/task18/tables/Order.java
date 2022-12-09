@@ -58,8 +58,8 @@ public class Order {
                 '}';
     }
 
-    public static Order parse(String line) { // TODO: change name arg
+    public static Order parse(String line) {
         String[] args = line.split(",");
-        return new Order(Integer.parseInt(args[0]), args[1], args[2]);
+        return new Order(Integer.parseInt(args[0].replaceAll(" ", "")), args[1], args[2]);
     }
 }

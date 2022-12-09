@@ -21,12 +21,11 @@ public class OrdersDAO {
     public Order createOrder(String userLogin, List<Product> products) throws ClassNotFoundException, SQLException {
         int orderId = 0;
 
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT MAX(NUMBER) FROM ORDERS")) {
-            try (ResultSet result = preparedStatement.executeQuery()) {
-                while (result.next()) {
-                    orderId = result.getInt("MAX(NUMBER)") + 1;
-                }
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAX(NUMBER) FROM ORDERS");
+             ResultSet result = preparedStatement.executeQuery()) {
+
+            while (result.next()) {
+                orderId = result.getInt("MAX(NUMBER)") + 1;
             }
         }
 
