@@ -75,7 +75,7 @@ public class ProductsDAO {
     public void deleteProduct(String productCode) throws SQLException {
 
         String queryProducts = "DELETE PRODUCTS WHERE ARTICLE = ?";
-        String queryOrders = "DELETE ORDERS WHERE ARTICLE = ?;"; // TODO: а надо ли в заказах удалять, это ведь история?
+        String queryOrders = "DELETE ORDERS WHERE ARTICLE = ?;";
 
         try (PreparedStatement pstmtProducts = connection.prepareStatement(queryProducts);
              PreparedStatement pstmtOrders = connection.prepareStatement(queryOrders)) {

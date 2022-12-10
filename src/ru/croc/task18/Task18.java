@@ -1,5 +1,6 @@
 package ru.croc.task18;
 
+import ru.croc.task18.dao.OrdersDAO;
 import ru.croc.task18.dao.ProductsDAO;
 import ru.croc.task18.exception.IllegalProductIsPresentException;
 import ru.croc.task18.tables.Product;
@@ -8,6 +9,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Task18 {
 
@@ -27,20 +30,26 @@ public class Task18 {
             TableCreator.createTables(connection);
             TableCreator.fillTablesWithData(connection, PATH);
 
-            ProductsDAO dao = new ProductsDAO(connection);
-            System.out.println(dao.findProduct("Т1"));
+            ProductsDAO productsDAO = new ProductsDAO(connection);
+            System.out.println(productsDAO.findProduct("Т1"));
 
-            System.out.println(dao.createProduct(new Product("Т6", "Car", 10000)));
-//            System.out.println(dao.createProduct(new Product("Т3", "Table", 780)));
+            System.out.println(productsDAO.createProduct(new Product("Т6", "Car", 10000)));
+//            System.out.println(productsDAO.createProduct(new Product("Т3", "Table", 780)));
 
-            System.out.println(dao.updateProduct(new Product("Т2", "Pen", 20)));
+            System.out.println(productsDAO.updateProduct(new Product("Т2", "Pen", 20)));
 
-            dao.deleteProduct("Т4");
-            System.out.println(dao.findProduct("Т4"));
+            productsDAO.deleteProduct("Т4");
+            System.out.println(productsDAO.findProduct("Т4"));
 
- /*           List<Product> productList = new ArrayList<>();
-            productList.add(dao.findProduct("Т6"));
-            System.out.println(dao.createOrder("petya", productList));*/
+
+            OrdersDAO ordersDAO = new OrdersDAO(connection);
+
+            List<Product> productList = new ArrayList<>();
+            productList.add(productsDAO.findProduct("Т6"));
+            productList.add(productsDAO.findProduct("Т5"));
+            productList.add(productsDAO.findProduct("Т3"));
+
+            System.out.println(ordersDAO.createOrder("petya", productList));
 
         }
 

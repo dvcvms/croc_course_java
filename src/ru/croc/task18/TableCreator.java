@@ -11,7 +11,6 @@ import java.util.HashSet;
 public class TableCreator {
 
     private static final Set<Product> productTypes = new HashSet<>();
-    private static final Set<Order> orderTypes = new HashSet<>();
 
     private static final int BATCH_SIZE = 25;
 
@@ -37,6 +36,12 @@ public class TableCreator {
         }
     }
 
+    /**
+     * Loading data from a file into tables
+     *
+     * @param connection This is connection to the database
+     * @param pathToCSV  The path to the data file
+     */
     public static void fillTablesWithData(Connection connection, String pathToCSV) throws SQLException, IOException {
 
         String queryProductPattern = "INSERT INTO PRODUCTS(ARTICLE, NAME, PRICE) VALUES (?,?,?)";
@@ -61,21 +66,20 @@ public class TableCreator {
                     pstmtProduct.addBatch();
                 }
 
-                // TODO: нужно ли исключать дублирование, это ведь история покупок?
-                if (!orderTypes.contains(order)) {
-                    insertOrder(pstmtOrder, order);
-                    orderTypes.add(order);
-                    pstmtOrder.addBatch();
-                }
+                insertOrder(pstmtOrder, order);
+                pstmtOrder.addBatch();
 
+                // Sending data in batches of 25 pieces
                 if (counter % BATCH_SIZE == 0) {
                     pstmtProduct.executeBatch();
                     pstmtOrder.executeBatch();
                     counter = 1;
                 }
+
                 counter++;
             }
 
+            // Sending the remaining data
             pstmtProduct.executeBatch();
             pstmtOrder.executeBatch();
 
@@ -84,7 +88,7 @@ public class TableCreator {
             } catch (SQLException e) {
                 connection.rollback();
                 connection.setAutoCommit(true);
-                throw new SQLException(); // TODO: правильно ли так? уточнить в лекции
+                throw new RuntimeException("Commit failed!");
             }
         }
         connection.setAutoCommit(true);

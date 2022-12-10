@@ -9,7 +9,7 @@ public class Order {
     private final String login;
     private String article;
 
-    private List<Product> articles; // TODO: rename
+    private List<Product> articles;
 
     public Order(int number, String login, String article) {
         this.number = number;

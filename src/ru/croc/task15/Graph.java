@@ -24,7 +24,7 @@ public class Graph {
     }
 
     private void addNode(String name, String parentName, int time) {
-        Node node = new Node(name, parentName, time); // TODO: parse?
+        Node node = new Node(name, parentName, time);
         nodes.put(name, node);
 
         if (parentName.equals("-")) {
@@ -34,7 +34,7 @@ public class Graph {
         }
     }
 
-    public int getResult() { // TODO: rename
+    public int getResult() {
         return root.calculateTime();
     }
 }
