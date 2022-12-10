@@ -20,7 +20,6 @@ public class Task18 {
     private static final String USERNAME = "max";
     private static final String PASSWORD = "java";
 
-
     private static final String PATH = "C:\\Users\\Admin\\IdeaProjects\\croc_course_java\\src\\ru\\croc\\task18\\data\\orders.csv";
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, IllegalProductIsPresentException {

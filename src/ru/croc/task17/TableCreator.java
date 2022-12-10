@@ -1,7 +1,7 @@
 package ru.croc.task17;
 
-import ru.croc.task18.tables.Product;
-import ru.croc.task18.tables.Order;
+import ru.croc.task17.tables.Product;
+import ru.croc.task17.tables.Order;
 
 import java.io.*;
 import java.sql.*;
@@ -27,7 +27,7 @@ public class TableCreator {
             statement.executeUpdate(closeProducts);
             statement.executeUpdate(closeUsers);
 
-            products = "CREATE TABLE PRODUCTS(ARTICLE VARCHAR(255), NAME VARCHAR(255), PRICE INTEGER, PRIMARY KEY (ARTICLE))";
+            products = "CREATE TABLE PRODUCTS(ARTICLE VARCHAR(255), NAME VARCHAR(255), PRICE INTEGER, PRIMARY KEY (ARTICLE));";
 
             orders = "CREATE TABLE ORDERS(NUMBER INT, LOGIN VARCHAR(255), ARTICLE VARCHAR(255));";
 
@@ -44,9 +44,9 @@ public class TableCreator {
      */
     public static void fillTablesWithData(Connection connection, String pathToCSV) throws SQLException, IOException {
 
-        String queryProductPattern = "INSERT INTO PRODUCTS(ARTICLE, NAME, PRICE) VALUES (?,?,?)";
+        String queryProductPattern = "INSERT INTO PRODUCTS(ARTICLE, NAME, PRICE) VALUES (?,?,?);";
 
-        String queryOrderPattern = "INSERT INTO ORDERS(NUMBER, LOGIN, ARTICLE) VALUES (?,?,?)";
+        String queryOrderPattern = "INSERT INTO ORDERS(NUMBER, LOGIN, ARTICLE) VALUES (?,?,?);";
 
         connection.setAutoCommit(false);
         try (PreparedStatement pstmtProduct = connection.prepareStatement(queryProductPattern);

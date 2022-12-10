@@ -20,7 +20,7 @@ public class OrdersDAO {
     public Order createOrder(String login, List<Product> products) throws SQLException {
         int number = 0;
 
-        String queryMaxNumber = "SELECT MAX(NUMBER) FROM ORDERS";
+        String queryMaxNumber = "SELECT MAX(NUMBER) FROM ORDERS;";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(queryMaxNumber);
              ResultSet result = preparedStatement.executeQuery()) {
@@ -30,7 +30,7 @@ public class OrdersDAO {
             }
         }
 
-        String queryPattern = "INSERT INTO ORDERS (NUMBER, LOGIN, ARTICLE) VALUES (?,?,?)";
+        String queryPattern = "INSERT INTO ORDERS (NUMBER, LOGIN, ARTICLE) VALUES (?,?,?);";
 
         for (Product product : products) {
             try (PreparedStatement statement = connection.prepareStatement(queryPattern)) {

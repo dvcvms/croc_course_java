@@ -56,7 +56,6 @@ public class ProductsDAO {
         return product;
     }
 
-    // TODO: доставить точки с запятой в запрсоы
     public Product updateProduct(Product product) throws SQLException {
 
         String query = "UPDATE PRODUCTS SET NAME = ?, PRICE = ? WHERE ARTICLE = ?;";
@@ -74,7 +73,7 @@ public class ProductsDAO {
 
     public void deleteProduct(String productCode) throws SQLException {
 
-        String queryProducts = "DELETE PRODUCTS WHERE ARTICLE = ?";
+        String queryProducts = "DELETE PRODUCTS WHERE ARTICLE = ?;";
         String queryOrders = "DELETE ORDERS WHERE ARTICLE = ?;";
 
         try (PreparedStatement pstmtProducts = connection.prepareStatement(queryProducts);
