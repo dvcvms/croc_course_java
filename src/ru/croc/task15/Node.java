@@ -17,6 +17,14 @@ public class Node {
         this.time = time;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
     public int getTime() {
         return this.time;
     }
@@ -33,5 +41,10 @@ public class Node {
         }
 
         return result + this.getTime();
+    }
+
+    public static Node parse(String line) {
+        String[] strings = line.split(",");
+        return new Node(strings[0], strings[1], Integer.parseInt(strings[2]));
     }
 }

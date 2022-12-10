@@ -10,27 +10,27 @@ public class Graph {
 
     private Node root;
     private final Map<String, Node> nodes = new HashMap<>();
+    private final String path;
 
-    public void buildTree(String path) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            String line;
-            String[] strings;
-
-            while ((line = reader.readLine()) != null) {
-                strings = line.split(",");
-                addNode(strings[0], strings[1], Integer.parseInt(strings[2]));
-            }
-        }
+    public Graph(String path) {
+        this.path = path;
     }
 
-    private void addNode(String name, String parentName, int time) {
-        Node node = new Node(name, parentName, time);
-        nodes.put(name, node);
+    public void buildTree() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
 
-        if (parentName.equals("-")) {
-            root = node;
-        } else {
-            nodes.get(parentName).addChild(node);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Node node = Node.parse(line);
+
+                if (node.getParentName().equals("-")) {
+                    root = node;
+                } else {
+                    nodes.get(node.getParentName()).addChild(node);
+                }
+
+                nodes.put(node.getName(), node);
+            }
         }
     }
 

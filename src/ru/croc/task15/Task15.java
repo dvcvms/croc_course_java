@@ -8,9 +8,9 @@ public class Task15 {
 
     public static void main(String[] args) throws IOException {
 
-        Graph graph = new Graph();
-        graph.buildTree(FILE_PATH);
-//        System.out.println(graph.getRoot().calculateTime());
+        Graph graph = new Graph(FILE_PATH);
+        graph.buildTree();
         System.out.println(graph.getResult());
+
     }
 }
